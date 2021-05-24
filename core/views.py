@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from core.models import Parametros
+from core.data_db.avarias import tratando_avarias, enviar_avarias
 from core.query_oracle.avarias_db import avarias_db
 import requests
 
 
 def home(request, template_name='base.html'):
+    teste = enviar_avarias()
+    print(teste)
     return render(request, template_name)
 
 

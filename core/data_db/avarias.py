@@ -1,5 +1,5 @@
-#from core.models import Parametros
-from core.views import login_api
+from core.models import Parametros
+from core.login_api import login_api
 from core.query_oracle.avarias_db import avarias_db
 import pandas as pd
 import requests
@@ -9,24 +9,30 @@ def tratando_avarias():
     avarias_df = avarias_db()
     avarias_df.columns = ["cod_filial", "cod_produto", "desc_produto", "data", "qt_avaria"]
     avarias_df['data'] = avarias_df['data'].replace(" 00:00", "", regex=True)
-    avarias = avarias_df.groupby(['data'])['qt_avaria'].sum().to_frame().reset_index()
+    avarias = avarias_df.groupby(['data', 'cod_filial', 'cod_produto', 'desc_produto'])['qt_avaria'].sum().to_frame().reset_index()
     avarias['data'] = pd.to_datetime(avarias['data'])
     avaria = pd.DataFrame(data=avarias)
+    avaria['empresa'] = 2
+    avaria['cod_fornecedor'] = 123
+    avarias = avaria.assign(**avaria.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    return avaria
+    print(avarias)
+
+
+    return avarias
 
 
 def enviar_avarias():
     dados = tratando_avarias()
     token = login_api()
 
-    url = ''
+    url = "http://127.0.0.1:8000/api/avaria/"
     headers = {
         'Authorization': token
     }
 
     response = requests.get(url=url, headers=headers)
-
+    print(headers)
     if response.status_code == 200:
         for i in dados:
             data = i
