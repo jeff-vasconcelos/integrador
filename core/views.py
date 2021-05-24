@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from core.models import Parametros
+from core.query_oracle.avarias_db import avarias_db
 import requests
 
 
