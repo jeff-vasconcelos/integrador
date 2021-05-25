@@ -2,8 +2,8 @@ import requests
 
 
 def login_api():
-    usuario = 'welleson'
-    senha = 'W180425l'
+    usuario = 'leandroauzier'
+    senha = 'a1a3A2A4'
 
     url = "http://127.0.0.1:8000/api-token-auth"
     user_data = {
