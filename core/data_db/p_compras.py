@@ -14,7 +14,7 @@ def tratando_p_compras():
     _p_compras = pd.DataFrame(data=p_compras)
     _p_compras['empresa'] = 1
     _p_compras['cod_fornecedor'] = 16
-    p_compras = p_compras.assign(**p_compras.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+    p_compras = _p_compras.assign(**_p_compras.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
     return p_compras
 

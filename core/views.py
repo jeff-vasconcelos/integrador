@@ -12,17 +12,17 @@ import requests
 
 def home(request, template_name='base.html'):
     #teste = enviar_avarias()
-    #teste2 = enviar_estoque_atual()
+    teste2 = enviar_estoque_atual()
     #teste3 = enviar_hist_estoque()
     #teste4 = enviar_p_compras()
     #teste5 = enviar_ultima_entrada()
-    teste6 =  enviar_vendas()
+    #teste6 = enviar_vendas()
     #print(teste)
-    #print(teste2)
+    print(teste2)
     #print(teste3)
     #print(teste4)
     #print(teste5)
-    print(teste6)
+    #print(teste6)
     return render(request, template_name)
 
 

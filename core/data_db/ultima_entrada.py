@@ -14,7 +14,11 @@ def tratando_ultima_entrada():
     _ultima_entrada = pd.DataFrame(data=ultima_entrada)
     _ultima_entrada['empresa'] = 1
     _ultima_entrada['cod_fornecedor'] = 16
-    ultima_entrada = ultima_entrada.assign(**ultima_entrada.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+    ultima_entrada = _ultima_entrada.assign(**_ultima_entrada.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+
+    print(ultima_entrada)
+
+    print(ultima_entrada_df.dtypes)
 
     return ultima_entrada
 
@@ -23,7 +27,7 @@ def enviar_ultima_entrada():
     dados = tratando_ultima_entrada()
     token = login_api()
 
-    url = 'http://127.0.0.1:8000/api/ultima-entrada/'
+    url = "http://127.0.0.1:8000/api/ultima-entrada/"
     headers = {
         'Authorization': token
     }

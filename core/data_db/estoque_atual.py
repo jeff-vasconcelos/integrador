@@ -9,14 +9,17 @@ def tratando_estoque_atual():
     estoque_atual_df = estoque_atual_db()
     estoque_atual_df.columns = ["desc_produto", "cod_filial", "filial", "cod_produto", "cod_fornecedor", "fornecedor", "embalagem", "qt_estoque_gerado", "qt_indenizado", "custo_ultima_entrada", "qt_reserva", "qt_pendente", "qt_estoque_atual"]
     #estoque_atual_df['data'] = estoque_atual_df['data'].replace(" 00:00", "", regex=True)
+    estoque_atual_df['custo_ultima_entrada'] = estoque_atual_df['custo_ultima_entrada'].replace(",", ".", regex=True)
+    estoque_atual_df['custo_ultima_entrada'] = estoque_atual_df['custo_ultima_entrada'].astype(float)
     estoque_atual = estoque_atual_df.groupby(['desc_produto', 'cod_filial', 'filial', 'cod_produto', 'cod_fornecedor', 'fornecedor', 'embalagem', 'qt_estoque_gerado', 'qt_indenizado', 'custo_ultima_entrada', 'qt_reserva', 'qt_pendente'])['qt_estoque_atual'].sum().to_frame().reset_index()
     #estoque_atual['data'] = pd.to_datetime(estoque_atual['data'])
     _estoque_atual = pd.DataFrame(data=estoque_atual)
     _estoque_atual['empresa'] = 1
     _estoque_atual['cod_fornecedor'] = 16
-    #estoque_atual = _estoque_atual.assign(**_estoque_atual.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+    estoque_atual = _estoque_atual.assign(**_estoque_atual.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    #print(estoque_atual)
+    print(estoque_atual)
+    print(estoque_atual_df.dtypes)
 
     return estoque_atual
 
