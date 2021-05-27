@@ -8,17 +8,14 @@ import requests
 def tratando_ultima_entrada():
     ultima_entrada_df = ultima_entrada_db()
     ultima_entrada_df.columns = ["desc_produto", "cod_filial", "filial", "cod_produto", "data", "valor_ultima_entrada", "qt_ultima_entrada"]
-    #ultima_entrada_df['data'] = ultima_entrada_df['data'].replace(" 00:00", "", regex=True)
     ultima_entrada = ultima_entrada_df.groupby(['data', "desc_produto", "cod_filial", "filial", "cod_produto", "valor_ultima_entrada"])['qt_ultima_entrada'].sum().to_frame().reset_index()
     ultima_entrada['data'] = pd.to_datetime(ultima_entrada['data'])
+
     _ultima_entrada = pd.DataFrame(data=ultima_entrada)
     _ultima_entrada['empresa'] = 1
     _ultima_entrada['cod_fornecedor'] = 16
+
     ultima_entrada = _ultima_entrada.assign(**_ultima_entrada.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
-
-    print(ultima_entrada)
-
-    print(ultima_entrada_df.dtypes)
 
     return ultima_entrada
 

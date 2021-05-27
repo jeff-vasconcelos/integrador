@@ -8,12 +8,13 @@ import requests
 def tratando_p_compras():
     p_compras_df = p_compras_db()
     p_compras_df.columns = ["cod_filial", "cod_produto", "desc_produto", "saldo", "num_pedido", "data"]
-    #p_compras_df['data'] = p_compras_df['data'].replace(" 00:00", "", regex=True)
     p_compras = p_compras_df.groupby(['data', "cod_filial", "cod_produto", "desc_produto", "saldo"])['num_pedido'].sum().to_frame().reset_index()
     p_compras['data'] = pd.to_datetime(p_compras['data'])
+
     _p_compras = pd.DataFrame(data=p_compras)
     _p_compras['empresa'] = 1
     _p_compras['cod_fornecedor'] = 16
+
     p_compras = _p_compras.assign(**_p_compras.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
     return p_compras
