@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.views import login_api
-from core.query_oracle import fornecedor_db
+from core.query_oracle.query_integracao import fornecedor_db
 import pandas as pd
 import requests
 

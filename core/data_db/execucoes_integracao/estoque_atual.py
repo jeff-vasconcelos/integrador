@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.estoque_atual_db import estoque_atual_db
+from core.query_oracle.query_integracao.estoque_atual_db import estoque_atual_db
 import pandas as pd
 import requests
 
@@ -43,6 +43,7 @@ def enviar_estoque_atual():
     }
 
     response = requests.get(url=url, headers=headers)
+    print(headers)
 
     if response.status_code == 200:
         for i in dados:

@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.ultima_entrada_db import ultima_entrada_db
+from core.query_oracle.query_integracao.ultima_entrada_db import ultima_entrada_db
 import pandas as pd
 import requests
 
@@ -30,6 +30,7 @@ def enviar_ultima_entrada():
     }
 
     response = requests.get(url=url, headers=headers)
+    print(headers)
 
     if response.status_code == 200:
         for i in dados:

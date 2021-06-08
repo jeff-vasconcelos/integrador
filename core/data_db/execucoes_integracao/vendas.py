@@ -1,6 +1,6 @@
 #from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.vendas_db import vendas_db
+from core.query_oracle.query_integracao.vendas_db import vendas_db
 import pandas as pd
 import requests
 
@@ -43,6 +43,8 @@ def enviar_vendas():
     }
 
     response = requests.get(url=url, headers=headers)
+    print(headers)
+
     if response.status_code == 200:
         for i in dados:
             data = i

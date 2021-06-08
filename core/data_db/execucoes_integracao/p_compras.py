@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.p_compras_db import p_compras_db
+from core.query_oracle.query_integracao.p_compras_db import p_compras_db
 import pandas as pd
 import requests
 
@@ -30,6 +30,7 @@ def enviar_p_compras():
     }
 
     response = requests.get(url=url, headers=headers)
+    print(headers)
 
     if response.status_code == 200:
         for i in dados:

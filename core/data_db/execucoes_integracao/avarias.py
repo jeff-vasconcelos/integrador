@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.avarias_db import avarias_db
+from core.query_oracle.query_integracao.avarias_db import avarias_db
 import pandas as pd
 import requests
 
