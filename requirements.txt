@@ -16,7 +16,6 @@ importlib-metadata==4.4.0
 kombu==5.1.0
 numpy==1.19.5
 pandas==1.1.5
-pkg-resources==0.0.0
 prompt-toolkit==3.0.18
 python-crontab==2.5.1
 python-dateutil==2.8.1
@@ -30,3 +29,5 @@ urllib3==1.26.5
 vine==5.0.0
 wcwidth==0.2.5
 zipp==3.4.1
+zope.event==4.5.0
+zope.interface==5.4.0

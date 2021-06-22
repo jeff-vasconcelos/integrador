@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 from celery import shared_task
 #from core.calculo import soma
-from core.data_db.execucoes_celery.rotina_avarias import rotina_tratando_avarias, rotina_enviar_avarias
 from core.data_db.execucoes_celery.rotina_estoque_atual import rotina_tratando_estoque_atual, rotina_enviar_estoque_atual
 from core.data_db.execucoes_celery.rotina_hist_estoque import rotina_tratando_hist_estoque, rotina_enviar_hist_estoque
 from core.data_db.execucoes_celery.rotina_p_compras import rotina_tratando_p_compras, rotina_enviar_p_compras
@@ -15,13 +14,6 @@ def realiza_soma():
     print('Feita a soma')
     soma(1,2)
 '''
-
-@shared_task
-def rotina_avarias():
-    print('Executando Rotina: Avarias...')
-    rotina_enviar_avarias()
-    print('Avarias Concluido!!!')
-
 
 @shared_task
 def rotina_estoque_atual():

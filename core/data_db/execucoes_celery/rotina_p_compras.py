@@ -24,7 +24,7 @@ def rotina_enviar_p_compras():
     dados = rotina_tratando_p_compras()
     token = login_api()
 
-    url = 'http://127.0.0.1:8000/api/pedido-compra/'
+    url = 'http://192.168.1.121/api/pedido-compra/'
     headers = {
         'Authorization': token
     }

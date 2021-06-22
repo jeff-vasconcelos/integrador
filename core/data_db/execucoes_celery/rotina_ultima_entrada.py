@@ -24,7 +24,7 @@ def rotina_enviar_ultima_entrada():
     dados = rotina_tratando_ultima_entrada()
     token = login_api()
 
-    url = "http://127.0.0.1:8000/api/ultima-entrada/"
+    url = "http://192.168.1.121/api/ultima-entrada/"
     headers = {
         'Authorization': token
     }

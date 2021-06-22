@@ -37,7 +37,7 @@ def rotina_enviar_vendas():
     dados = rotina_tratando_vendas()
     token = login_api()
 
-    url = "http://127.0.0.1:8000/api/venda/"
+    url = "http://192.168.1.121/api/venda/"
     headers = {
         'Authorization': token
     }

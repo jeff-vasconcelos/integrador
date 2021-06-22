@@ -37,7 +37,7 @@ def rotina_enviar_estoque_atual():
     dados = rotina_tratando_estoque_atual()
     token = login_api()
 
-    url = 'http://127.0.0.1:8000/api/estoque-atual/'
+    url = 'http://192.168.1.121/api/estoque-atual/'
     headers = {
         'Authorization': token
     }

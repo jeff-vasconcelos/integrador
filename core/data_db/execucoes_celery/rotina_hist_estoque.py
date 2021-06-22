@@ -24,7 +24,7 @@ def rotina_enviar_hist_estoque():
     dados = rotina_tratando_hist_estoque()
     token = login_api()
 
-    url = 'http://127.0.0.1:8000/api/historico-estoque/'
+    url = 'http://192.168.1.121/api/historico-estoque/'
     headers = {
         'Authorization': token
     }
