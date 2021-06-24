@@ -3,6 +3,8 @@ from core.login_api import login_api
 from core.query_oracle.query_celery.rotina_vendas_db import vendas_db
 import pandas as pd
 import requests
+import datetime
+import json
 
 """
 Os dados coletados do DB, são armazenados na variável vendas_df e tratados por colunas, as colunas preco_unit e custo_fin
@@ -14,23 +16,22 @@ depois as colunas foram ordenadas e a data convertida para o formato datetime
 
 def rotina_tratando_vendas():
     vendas_df = vendas_db()
-    vendas_df.columns = ["data", "desc_produto", "cod_filial", "filial", "qt_vendas", "cod_produto", "preco_unit", "desc_produto2", "codepto","cod_fornecedor", "qtd_unid_cx", "custo_fin", "marca", "peso_liq", "cod_fab"]
-    vendas_df['preco_unit'] = vendas_df['preco_unit'].replace(",", ".", regex=True)
-    vendas_df['preco_unit'] = vendas_df['preco_unit'].astype(float)
-    vendas_df['custo_fin'] = vendas_df['custo_fin'].replace(",", ".", regex=True)
-    vendas_df['custo_fin'] = vendas_df['custo_fin'].astype(float)
-    vendas_df = vendas_df.drop(columns=["filial", "desc_produto2", "codepto", "qtd_unid_cx", "marca", "peso_liq", "cod_fab"])
+    vendas_df.columns = ["cod_filial", "data", "cod_produto", "desc_produto", "qt_vendas", "preco_unit",
+                                   "cliente", "peso_liquido", "cod_depto", "desc_dois", "num_nota", "cod_usur",
+                                   "cod_fornecedor", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
+                                   "cod_fab", "supervisor"]
+    vendas_df = vendas_df.drop(columns=['cod_aux'])
+    vendas_df['preco_unit'] = vendas_df['preco_unit'].replace(",", ".", regex=True).astype(float).round(3)
+    vendas_df['peso_liquido'] = vendas_df['peso_liquido'].replace(",", ".", regex=True).astype(float)
+    vendas_df['custo_fin'] = vendas_df['custo_fin'].replace(",", ".", regex=True).astype(float).round(3)
+    vendas_df['data'] = pd.to_datetime(vendas_df['data'])
 
-    vendas = vendas_df.groupby(['data', 'cod_produto', 'desc_produto', 'cod_filial', 'cod_fornecedor', 'preco_unit', 'custo_fin'])['qt_vendas'].sum().to_frame().reset_index()
-    vendas['data'] = pd.to_datetime(vendas['data'])
+    #TODO remover depois (tem que automatizar)s
+    vendas_df['empresa'] = 1
 
-    _vendas = pd.DataFrame(data=vendas)
-    _vendas['empresa'] = 1
-    _vendas['cod_fornecedor'] = 16
+    vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    vendas = _vendas.assign(**_vendas.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
-
-    return vendas
+    return vendas_dic
 
 
 def rotina_enviar_vendas():
@@ -39,15 +40,17 @@ def rotina_enviar_vendas():
 
     url = "http://192.168.1.121/api/venda/"
     headers = {
-        'Authorization': token
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        'dataType': 'json',
+        'Accept': 'application/json'
     }
 
     response = requests.get(url=url, headers=headers)
-    print(headers)
 
     if response.status_code == 200:
         for i in dados:
-            data = i
+            data = json.dumps(i)
             response = requests.post(url=url, headers=headers, data=data)
         return response.status_code
     else:

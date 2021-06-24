@@ -3,19 +3,24 @@ from core.login_api import login_api
 from core.query_oracle.query_celery.rotina_p_compras_db import p_compras_db
 import pandas as pd
 import requests
+import datetime
+import json
 
 
 def rotina_tratando_p_compras():
-    p_compras_df = p_compras_db()
-    p_compras_df.columns = ["cod_filial", "cod_produto", "desc_produto", "saldo", "num_pedido", "data"]
-    p_compras = p_compras_df.groupby(['data', "cod_filial", "cod_produto", "desc_produto", "saldo"])['num_pedido'].sum().to_frame().reset_index()
-    p_compras['data'] = pd.to_datetime(p_compras['data'])
+    df_pedidos_compras = p_compras_db()
+    df_pedidos_compras.columns = ["cod_filial", "cod_produto", "desc_produto", "saldo", "num_pedido", "data"]
+    df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
+    df_pedidos_compras.fillna(0, inplace=True)
 
-    _p_compras = pd.DataFrame(data=p_compras)
-    _p_compras['empresa'] = 1
-    _p_compras['cod_fornecedor'] = 16
+    pedidos_df = df_pedidos_compras
 
-    p_compras = _p_compras.assign(**_p_compras.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+    # TODO remover depois (tem que automatizar)
+    pedidos_df['empresa'] = 1
+    pedidos_df['cod_fornecedor'] = 16
+
+
+    p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
     return p_compras
 
@@ -26,7 +31,10 @@ def rotina_enviar_p_compras():
 
     url = 'http://192.168.1.121/api/pedido-compra/'
     headers = {
-        'Authorization': token
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        'dataType': 'json',
+        'Accept': 'application/json'
     }
 
     response = requests.get(url=url, headers=headers)
@@ -34,7 +42,7 @@ def rotina_enviar_p_compras():
 
     if response.status_code == 200:
         for i in dados:
-            data = i
+            data = json.dumps(i)
             response = requests.post(url=url, headers=headers, data=data)
         return response.status_code
     else:
