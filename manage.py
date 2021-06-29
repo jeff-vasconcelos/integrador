@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from query import *
 
 
 def main():
@@ -19,3 +20,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    connect()
