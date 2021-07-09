@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query import query_ult_entrada, query_estoque, query_hist,query_p_compras,query_p_vendas
+from core.query import query_ult_entrada
 #from core.query_oracle.query_celery.rotina_ultima_entrada_db import ultima_entrada_db
 import pandas as pd
 import requests

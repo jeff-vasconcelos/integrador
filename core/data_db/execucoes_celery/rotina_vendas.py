@@ -1,6 +1,6 @@
 #from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.query_celery.rotina_vendas_db import vendas_db
+from core.query import query_p_vendas
 import pandas as pd
 import requests
 import datetime
@@ -15,8 +15,8 @@ depois as colunas foram ordenadas e a data convertida para o formato datetime
 
 
 def rotina_tratando_vendas():
-    vendas_df = vendas_db()
-    vendas_df.columns = ["cod_filial", "data", "cod_produto", "desc_produto", "qt_vendas", "preco_unit",
+    vendas_df = query_p_vendas()
+    vendas_df.columns = ["data", "cod_produto",  "desc_produto", "qt_vendas", "preco_unit", "cod_filial",
                                    "cliente", "peso_liquido", "cod_depto", "desc_dois", "num_nota", "cod_usur",
                                    "cod_fornecedor", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
                                    "cod_fab", "supervisor"]

@@ -20,12 +20,11 @@ def query_ult_entrada():
     cur, con = conn_db()
 
     pd.set_option('display.max_rows', None)
-    cur.execute('SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, pcprodut.codprod , pcprodut.descricao FROM pcest, pcprodut WHERE pcest.dtultent >= TRUNC(SYSDATE) -400 AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)')
+    cur.execute('SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA,pcprodut.codprod , pcprodut.descricao FROM pcest, pcprodut WHERE pcest.dtultent >= TRUNC(SYSDATE) 100 AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)')
 
     lista = []
     for resultado in cur:
         lista.append(resultado)
-        print(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
     print(res_df_d)
@@ -48,11 +47,13 @@ def query_estoque():
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
-    print(res_df_d.info())
+    print(res_df_d)
     print(resultado)
 
     cur.close()
     con.close()
+
+    return res_df_d
 
 
 def query_hist():
@@ -64,14 +65,16 @@ def query_hist():
     lista = []
     for resultado in cur:
         lista.append(resultado)
+        print(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
-    print(res_df_d.info())
+    print(res_df_d)
     print(resultado)
 
     cur.close()
     con.close()
 
+    return res_df_d
 
 def query_p_compras():
     cur, con = conn_db()
@@ -84,12 +87,13 @@ def query_p_compras():
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
-    print(res_df_d.info())
+    print(res_df_d)
     print(resultado)
 
     cur.close()
     con.close()
 
+    return res_df_d
 
 def query_p_vendas():
     cur, con = conn_db()
@@ -102,8 +106,10 @@ def query_p_vendas():
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
-    print(res_df_d.info())
+    print(res_df_d)
     print(resultado)
 
     cur.close()
     con.close()
+
+    return res_df_d

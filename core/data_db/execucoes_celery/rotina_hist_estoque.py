@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.query_celery.rotina_hist_estoque_db import hist_estoque_db
+from core.query import query_hist
 import pandas as pd
 import requests
 import datetime
@@ -8,8 +8,9 @@ import json
 
 
 def rotina_tratando_hist_estoque():
-    hist_estoque_df = hist_estoque_db()
-    hist_estoque_df.columns = ["cod_filial", "cod_produto", "desc_produto", "embalagem", "data", "qt_estoque"]
+    hist_estoque_df = query_hist()
+    hist_estoque_df.columns = ["cod_produto", "desc_produto", "embalagem", "data", "qt_estoque", "cod_filial"]
+    hist_estoque_df['qt_estoque'] = hist_estoque_df['qt_estoque'].replace(",", ".", regex=True).astype(int).round(3)
     hist_estoque_df['data'] = pd.to_datetime(hist_estoque_df['data'])
     hist_estoque_df.fillna(0, inplace=True)
 

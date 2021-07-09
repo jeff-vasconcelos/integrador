@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.query_celery.rotina_p_compras_db import p_compras_db
+from core.query import query_p_compras
 import pandas as pd
 import requests
 import datetime
@@ -8,7 +8,7 @@ import json
 
 
 def rotina_tratando_p_compras():
-    df_pedidos_compras = p_compras_db()
+    df_pedidos_compras = query_p_compras()
     df_pedidos_compras.columns = ["cod_filial", "cod_produto", "desc_produto", "saldo", "num_pedido", "data"]
     df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
     df_pedidos_compras.fillna(0, inplace=True)
