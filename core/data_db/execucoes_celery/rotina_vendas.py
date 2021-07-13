@@ -6,27 +6,21 @@ import requests
 import datetime
 import json
 
-"""
-Os dados coletados do DB, são armazenados na variável vendas_df e tratados por colunas, as colunas preco_unit e custo_fin
-foram corrigidas e convertidas em float para não haver erros, assim como removi algumas das colunas onde os dados não
-foram especificados.
-depois as colunas foram ordenadas e a data convertida para o formato datetime
-"""
-
 
 def rotina_tratando_vendas():
     vendas_df = query_p_vendas()
     vendas_df.columns = ["data", "cod_produto",  "desc_produto", "qt_vendas", "preco_unit", "cod_filial",
-                                   "cliente", "peso_liquido", "cod_depto", "desc_dois", "num_nota", "cod_usur",
-                                   "cod_fornecedor", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
-                                   "cod_fab", "supervisor"]
-    vendas_df = vendas_df.drop(columns=['cod_aux'])
+                                 "cliente", "peso_liquido", "cod_depto", "desc_dept", "num_nota", "cod_usur",
+                                 "cod_fornecedor", "secao", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
+                                 "cod_fab", "supervisor"]
+
+    #vendas_df = vendas_df.drop(columns=['cod_aux'])
     vendas_df['preco_unit'] = vendas_df['preco_unit'].replace(",", ".", regex=True).astype(float).round(3)
     vendas_df['peso_liquido'] = vendas_df['peso_liquido'].replace(",", ".", regex=True).astype(float)
     vendas_df['custo_fin'] = vendas_df['custo_fin'].replace(",", ".", regex=True).astype(float).round(3)
     vendas_df['data'] = pd.to_datetime(vendas_df['data'])
 
-    #TODO remover depois (tem que automatizar)s
+    #TODO remover depois (tem que automatizar)
     vendas_df['empresa'] = 1
 
     vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")

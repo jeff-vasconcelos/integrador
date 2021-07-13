@@ -76,6 +76,7 @@ def query_hist():
 
     return res_df_d
 
+
 def query_p_compras():
     cur, con = conn_db()
 
@@ -94,6 +95,7 @@ def query_p_compras():
     con.close()
 
     return res_df_d
+
 
 def query_p_vendas():
     cur, con = conn_db()

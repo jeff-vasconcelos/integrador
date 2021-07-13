@@ -10,9 +10,7 @@ import json
 def rotina_tratando_estoque_atual():
     estoque_atual_df = query_estoque()
 
-    estoque_atual_df.columns = ["desc_produto", "embalagem", "cod_filial", "cod_produto", "qt_estoque_geral", "qt_indenizada", "qt_reservada", "qt_pendente", "qt_bloqueada", "qt_disponivel", "custo_ult_ent", "cod_fornecedor",  "fornecedor","preco_venda"]
-
-
+    estoque_atual_df.columns = ["desc_produto", "embalagem", "cod_filial", "cod_produto", "qt_estoque_geral", "qt_indenizada", "qt_reservada", "qt_pendente", "qt_bloqueada", "qt_disponivel", "custo_ult_ent", "cod_fornecedor",  "fornecedor", "preco_venda"]
 
     estoque_atual_df['qt_disponivel'] = estoque_atual_df['qt_disponivel'].replace(",", ".", regex=True).astype(int)
     estoque_atual_df['qt_estoque_geral'] = estoque_atual_df['qt_estoque_geral'].replace(",", ".", regex=True).astype(int)
@@ -25,8 +23,8 @@ def rotina_tratando_estoque_atual():
     #TODO remover depois (Tem que automatizar)
     estoque_atual_df['empresa'] = 1
 
-    estoque_atual = estoque_atual_df.assign(**estoque_atual_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-        "records")
+    estoque_atual = estoque_atual_df.assign(**estoque_atual_df.select_dtypes(["datetime"]).astype(str).to_dict("list")
+                                            ).to_dict("records")
 
     return estoque_atual
 
