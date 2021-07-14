@@ -9,9 +9,9 @@ COPY . /app
 WORKDIR /app
 #Executar todas as dependencias: (apt-cache pois não precisa de barra de progresso)
 RUN apt-get update
-RUN apt install -y redis-server
 #apt-get -y install python3-pip &&
 RUN pip3 install -r requirements.txt
+
 # Assim que o cointainer startar, executar:
 #ENTRYPOINT /bin/sh
 

@@ -129,7 +129,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
+BROKER_URL = 'redis://redis:6379'
 CELERY_IMPORTS = ('core.tasks',)
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
