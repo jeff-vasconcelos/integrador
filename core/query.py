@@ -2,7 +2,7 @@ import cx_Oracle
 import pandas as pd
 from django.shortcuts import render
 
-cx_Oracle.init_oracle_client(config_dir="/opt/oracle/instantclient_11_2/network/admin")
+#cx_Oracle.init_oracle_client(config_dir="/opt/oracle/instantclient_11_2/network/admin")
 
 
 def conn_db():
