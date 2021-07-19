@@ -1,6 +1,6 @@
 from core.models import Parametros
 from core.login_api import login_api
-from core.query_oracle.query_celery.rotina_produto_db import produtos_db
+from core.query import query_produto
 import pandas as pd
 import requests
 import datetime
@@ -8,7 +8,7 @@ import json
 
 
 def rotina_tratando_produto():
-    df_produtos = produtos_db()
+    df_produtos = query_produto()
     df_produtos.columns = ["cod_produto", "desc_produto", "embalagem", "quantidade_un_cx", "marca", "peso_liq",
                           "cod_fornecedor"]
 
