@@ -5,7 +5,7 @@ import requests
 
 def rotina_tratando_fornecedor():
     fornecedor_df = query_fornecedor()
-    fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "leadtime", "ciclo_reposicao"]
+    fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
     fornecedor_df.fillna(0, inplace=True)
 
     fornecedor_df['empresa'] = 1

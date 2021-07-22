@@ -6,7 +6,8 @@ import json
 
 def rotina_tratando_produto():
     df_produtos = query_produto()
-    df_produtos.columns = ["cod_produto", "desc_produto", "embalagem", "quantidade_un_cx", "marca", "peso_liq", "cod_fornecedor"]
+    df_produtos.columns = ["cod_fornecedor", "cod_produto", "desc_produto", "cod_ncm", "cod_auxiliar", "marca", "embalagem", "quantidade_un_cx",  "peso_liquido", "cod_fabrica", "cod_depto", "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
+    #df_produtos.fillna(0, inplace=True)
 
     df_produtos['empresa'] = 1
 
