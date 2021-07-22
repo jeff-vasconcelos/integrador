@@ -1,9 +1,7 @@
-#from core.models import Parametros
 from core.login_api import login_api
 from core.query import query_p_vendas
 import pandas as pd
 import requests
-import datetime
 import json
 
 
@@ -14,7 +12,6 @@ def rotina_tratando_vendas():
                                  "cod_fornecedor", "secao", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
                                  "cod_fab", "supervisor"]
 
-    #vendas_df = vendas_df.drop(columns=['cod_aux'])
     vendas_df['preco_unit'] = vendas_df['preco_unit'].replace(",", ".", regex=True).astype(float).round(3)
     vendas_df['peso_liquido'] = vendas_df['peso_liquido'].replace(",", ".", regex=True).astype(float)
     vendas_df['custo_fin'] = vendas_df['custo_fin'].replace(",", ".", regex=True).astype(float).round(3)

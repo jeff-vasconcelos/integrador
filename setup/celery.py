@@ -4,7 +4,6 @@ from celery import Celery
 from celery.schedules import crontab
 from django.conf import settings
 
-# set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'setup.settings')
 app = Celery('setup', broker='redis://redis:6379', backend='redis://redis:6379')
 
@@ -36,8 +35,3 @@ app.conf.beat_schedule = {
 
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-
-
-@app.task(bind=True)
-def debug_task(self):
-    print('Request: {0!r}'.format(self.request))

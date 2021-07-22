@@ -1,20 +1,15 @@
-from core.models import Parametros
 from core.login_api import login_api
 from core.query import query_produto
-import pandas as pd
 import requests
-import datetime
 import json
 
 
 def rotina_tratando_produto():
     df_produtos = query_produto()
-    df_produtos.columns = ["cod_produto", "desc_produto", "embalagem", "quantidade_un_cx", "marca", "peso_liq",
-                          "cod_fornecedor"]
+    df_produtos.columns = ["cod_produto", "desc_produto", "embalagem", "quantidade_un_cx", "marca", "peso_liq", "cod_fornecedor"]
 
     df_produtos['empresa'] = 1
 
-    df_produtos['quantidade_un_cx'] = df_produtos['quantidade_un_cx'].replace(",", ".", regex=True).astype(float).round(3)
     produtos_dic = df_produtos.assign(**df_produtos.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
 

@@ -1,4 +1,3 @@
-from core.models import Parametros
 from core.login_api import login_api
 from core.query import query_estoque
 import pandas as pd

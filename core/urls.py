@@ -1,5 +1,4 @@
 from django.urls import path
-from core.query import *
 from core.views import ult_entrada, estoque, hist_estoque, p_compras, p_vendas , fornecedor, produto
 
 urlpatterns = [

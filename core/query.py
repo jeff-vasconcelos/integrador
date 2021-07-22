@@ -1,16 +1,10 @@
 import cx_Oracle
 import pandas as pd
-from django.shortcuts import render
-
-#cx_Oracle.init_oracle_client(config_dir="/opt/oracle/instantclient_11_2/network/admin")
 
 
 def conn_db():
-    nnota = 1 #698098
-    nfilial = 1
     con = cx_Oracle.connect(user="ESTRELA", password="star895thor", dsn="PROD")  # user, password, DNS
     cur = con.cursor()
-
 
     return cur, con
 
@@ -101,7 +95,7 @@ def query_p_vendas():
     cur, con = conn_db()
 
     pd.set_option('display.max_rows', None)
-    cur.execute("SELECT pcmov.dtmov, pcprodut.codprod, pcprodut.descricao, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.codcli, pcmov.pesoliq, pcmov.codepto, pcdepto.descricao DEPARTAMENTO, pcmov.numnota, pcmov.codusur, pcmov.codfornec, pcsecao.descricao SECAO, pcprodut.qtunitcx, pcprodut.codauxiliar, pcmov.custofin, pcmarca.marca, pcprodut.codfab, pcsuperv.nome SUPERVISOR FROM pcmov, pcdepto, pcprodut, pcsecao, pcmarca, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov >= TRUNC(SYSDATE) -120 AND pcmov.codepto = pcdepto.codepto AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcprodut.codsec = pcsecao.codsec AND pcprodut.codmarca = pcmarca.codmarca AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1, 2, 3, 4, 5, 6) AND pcmov.codoper = 'S'")
+    cur.execute("SELECT PCMOV.DTMOV, PCPRODUT.CODPROD, PCPRODUT.DESCRICAO, PCMOV.QT, PCMOV.PUNIT, PCMOV.CODFILIAL, PCCLIENT.CLIENTE, PCMOV.CODEPTO, PCDEPTO.DESCRICAO DEPARTAMENTO, PCMOV.NUMNOTA, PCMOV.CODUSUR, PCMOV.CODFORNEC, PCSECAO.DESCRICAO SECAO, PCMOV.CUSTOFIN, PCMOV.PUNIT, PCPRINCIPATIVO.DESCRICAO PRINCIPIO_ATIVO FROM PCMOV, PCDEPTO, PCPRODUT, PCSECAO, PCCLIENT, PCPRINCIPATIVO WHERE DTMOV >= TRUNC(SYSDATE) - 120 AND PCMOV.CODEPTO = PCDEPTO.CODEPTO AND PCMOV.CODPROD = PCPRODUT.CODPROD AND PCPRODUT.CODPRINCIPATIVO = PCPRINCIPATIVO.CODPRINCIPATIVO (+) AND PCPRODUT.CODSEC = PCSECAO.CODSEC AND PCMOV.CODCLI = PCCLIENT.CODCLI AND PCMOV.CODFILIAL IN (1) AND PCMOV.CODOPER = 'S'")
 
     lista = []
     for resultado in cur:
@@ -121,7 +115,7 @@ def query_produto():
     cur, con = conn_db()
 
     pd.set_option('display.max_rows', None)
-    cur.execute("SELECT pcprodut.codprod, pcprodut.descricao, pcprodut.nbm, pcprodut.codauxiliar from pcprodut")
+    cur.execute("select pcprodut.codprod , pcprodut.descricao, pcprodut.nbm, pcprodut.codauxiliar,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq,pcprodut.codfab,pcprodut.codepto,pcdepto.descricao,pcprodut.codsec,pcsecao.descricao from pcprodut, pcmarca, pcdepto, pcsecao where pcprodut.codmarca = pcmarca.codmarca and pcprodut.codepto = pcdepto.codepto and pcprodut.codsec = pcsecao.codsec")
 
     lista = []
     for resultado in cur:
@@ -140,7 +134,7 @@ def query_produto():
 def query_fornecedor():
     cur, con = conn_db()
 
-    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
     cur.execute("SELECT pcfornec.codfornec, pcfornec.fornecedor, pcfornec.cgc CNPJ, pcfornec.ie INS_ESTADIAL from pcfornec")
 
     lista = []

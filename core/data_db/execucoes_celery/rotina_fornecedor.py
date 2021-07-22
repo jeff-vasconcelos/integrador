@@ -1,18 +1,16 @@
-from core.models import Parametros
 from core.login_api import login_api
 from core.query import query_fornecedor
-import pandas as pd
 import requests
 
 
 def rotina_tratando_fornecedor():
     fornecedor_df = query_fornecedor()
-    fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "leadtime", "ciclo reposicao"]
-    #fornecedor_df.columns = ["cod_filial", "cod_produto", "desc_produto", "data", "qt_fornecedor"]
-    #fornecedor_df['data'] = fornecedor_df['data'].replace(" 00:00", "", regex=True)
-    #fornecedor = fornecedor_df.groupby(['data'])['qt_fornecedor'].sum().to_frame().reset_index()
-    #fornecedor['data'] = pd.to_datetime(fornecedor['data'])
-    #_fornecedor = pd.DataFrame(data=fornecedor)
+    fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "leadtime", "ciclo_reposicao"]
+    fornecedor_df.fillna(0, inplace=True)
+
+    fornecedor_df['empresa'] = 1
+
+    _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
     return _fornecedor
 
