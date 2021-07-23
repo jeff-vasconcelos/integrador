@@ -7,18 +7,18 @@ import json
 
 def rotina_tratando_ultima_entrada():
     ultima_entrada_df = query_ult_entrada()
-    ultima_entrada_df.columns = ["cod_filial", "data", "vl_ult_entrada", "qt_ult_ent", "cod_produto","desc_produto"]
+    ultima_entrada_df.columns = ["cod_filial", "data", "vl_ult_entrada", "qt_ult_entrada", "cod_produto","cod_fornecedor"]
     ultima_entrada_df['vl_ult_entrada'] = ultima_entrada_df['vl_ult_entrada'].replace(",", ".", regex=True).astype(float).round(3)
     ultima_entrada_df['data'] = pd.to_datetime(ultima_entrada_df['data'])
     ultima_entrada_df.fillna(0, inplace=True)
 
-    entradas_df = ultima_entrada_df
+    #entradas_df = ultima_entrada_df
 
     #TODO remover depois (tem que automatizar)
-    entradas_df['empresa'] = 1
-    entradas_df['cod_fornecedor'] = 16
+    ultima_entrada_df['empresa'] = 1
+    ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==267")
 
-    entradas = entradas_df.assign(**entradas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+    entradas = ultima_entrada_df.assign(**ultima_entrada_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
 
     return entradas

@@ -32,9 +32,9 @@ def rotina_hist_estoque():
 
 @shared_task
 def rotina_p_compras():
-    print('Executando Rotina: Preço de compras...')
+    print('Executando Rotina: Pedido de compras...')
     rotina_enviar_p_compras()
-    print('Preço de Compras Concluido!!!')
+    print('Pedido de Compras Concluido!!!')
 
 
 @shared_task

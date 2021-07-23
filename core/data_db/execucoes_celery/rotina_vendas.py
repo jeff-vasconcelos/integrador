@@ -7,18 +7,15 @@ import json
 
 def rotina_tratando_vendas():
     vendas_df = query_p_vendas()
-    vendas_df.columns = ["data", "cod_produto",  "desc_produto", "qt_vendas", "preco_unit", "cod_filial",
-                                 "cliente", "peso_liquido", "cod_depto", "desc_dept", "num_nota", "cod_usur",
-                                 "cod_fornecedor", "secao", "qt_unit_caixa", "cod_aux", "custo_fin", "marca",
-                                 "cod_fab", "supervisor"]
+    vendas_df.columns = ["data", "cod_produto", "qt_venda", "preco_unit", "cod_filial", "cliente", "num_nota", "rca","cod_fornecedor", "custo_fin", "supervisor"]
 
     vendas_df['preco_unit'] = vendas_df['preco_unit'].replace(",", ".", regex=True).astype(float).round(3)
-    vendas_df['peso_liquido'] = vendas_df['peso_liquido'].replace(",", ".", regex=True).astype(float)
     vendas_df['custo_fin'] = vendas_df['custo_fin'].replace(",", ".", regex=True).astype(float).round(3)
     vendas_df['data'] = pd.to_datetime(vendas_df['data'])
 
     #TODO remover depois (tem que automatizar)
     vendas_df['empresa'] = 1
+    #vendas_df = vendas_df.query("cod_fornecedor == 267")
 
     vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

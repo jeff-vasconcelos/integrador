@@ -7,7 +7,7 @@ import json
 
 def rotina_tratando_p_compras():
     df_pedidos_compras = query_p_compras()
-    df_pedidos_compras.columns = ["cod_filial", "cod_produto", "desc_produto", "saldo", "num_pedido", "data"]
+    df_pedidos_compras.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
     df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
     df_pedidos_compras.fillna(0, inplace=True)
 
@@ -15,7 +15,7 @@ def rotina_tratando_p_compras():
 
     # TODO remover depois (tem que automatizar)
     pedidos_df['empresa'] = 1
-    pedidos_df['cod_fornecedor'] = 16
+    pedidos_df = pedidos_df.query('cod_fornecedor==267')
 
     p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
