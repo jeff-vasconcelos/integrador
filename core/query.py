@@ -51,7 +51,7 @@ def query_estoque():
 def query_hist():
     cur, con = conn_db()
 
-    cur.execute('SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data >= TRUNC(SYSDATE) -120 ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data')
+    cur.execute('SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data >= TRUNC(SYSDATE) -80 ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data')
 
     lista = []
     for resultado in cur:
@@ -97,7 +97,7 @@ def query_p_vendas():
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
     res_df_d = res_df.dropna()
-    #print(res_df_d)
+    print(res_df_d)
     #print(resultado)
 
     cur.close()
