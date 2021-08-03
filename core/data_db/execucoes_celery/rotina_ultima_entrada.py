@@ -16,7 +16,8 @@ def rotina_tratando_ultima_entrada():
 
     #TODO remover depois (tem que automatizar)
     ultima_entrada_df['empresa'] = 1
-    ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==267")
+    #ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==267")
+    ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==16")
 
     entradas = ultima_entrada_df.assign(**ultima_entrada_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
@@ -28,7 +29,8 @@ def rotina_enviar_ultima_entrada():
     dados = rotina_tratando_ultima_entrada()
     token = login_api()
 
-    url = "http://192.168.1.121/api/ultima-entrada/"
+    url = 'http://177.136.201.66/api/ultima-entrada/'
+    #url = "http://192.168.1.121/api/ultima-entrada/"
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',

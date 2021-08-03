@@ -16,11 +16,13 @@ services:
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
         - CELERY_BROKER=redis://redis:6379
         - CELERY_BACKEND=redis://redis:6379
+      image: leandroauzier/imagem-insight
       depends_on:
         - redis
   celery:
       build: .
-      command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+      command: sh -c "celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+      image: leandroauzier/imagem-insight
       volumes:
         - .:/code/
       environment:

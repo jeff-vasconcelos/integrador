@@ -5,7 +5,7 @@ def login_api():
     usuario = 'leandroauzier'
     senha = 'a1a3A2A4'
 
-    url = "http://192.168.1.121/api-token-auth"
+    url = "http://177.136.201.66/api-token-auth"
     user_data = {
         "username": usuario,
         "password": senha

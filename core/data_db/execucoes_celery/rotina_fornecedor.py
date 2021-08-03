@@ -9,6 +9,7 @@ def rotina_tratando_fornecedor():
     #fornecedor_df.fillna(0, inplace=True)
 
     fornecedor_df['empresa'] = 1
+    fornecedor_df = fornecedor_df.query('cod_fornecedor==16')
 
     _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -19,7 +20,8 @@ def rotina_enviar_fornecedor():
     dados = rotina_tratando_fornecedor()
     token = login_api()
 
-    url = 'http://192.168.1.121/api/fornecedor/'
+    url = 'http://177.136.201.66/api/fornecedor/'
+    #url = 'http://192.168.1.121/api/fornecedor/'
     headers = {
         'Authorization': token
     }

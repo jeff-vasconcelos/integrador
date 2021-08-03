@@ -13,7 +13,7 @@ def query_ult_entrada():
 
     cur, con = conn_db()
 
-    cur.execute('SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent >= TRUNC(SYSDATE) -120 AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)')
+    cur.execute('SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent >= TRUNC(SYSDATE) -1 AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)')
 
     lista = []
     for resultado in cur:
@@ -38,20 +38,21 @@ def query_estoque():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
+    #res_df_d = res_df.dropna()
+
+    #print(res_df_d)
     print(resultado)
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
 
 
 def query_hist():
     cur, con = conn_db()
 
-    cur.execute('SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data >= TRUNC(SYSDATE) -80 ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data')
+    cur.execute('SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data >= TRUNC(SYSDATE) -1 ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data')
 
     lista = []
     for resultado in cur:
@@ -71,7 +72,7 @@ def query_hist():
 def query_p_compras():
     cur, con = conn_db()
 
-    cur.execute('SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao >= TRUNC(SYSDATE) - 120')
+    cur.execute('SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao >= TRUNC(SYSDATE) - 1')
 
     lista = []
     for resultado in cur:
@@ -90,7 +91,7 @@ def query_p_compras():
 def query_p_vendas():
     cur, con = conn_db()
 
-    cur.execute("select pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov >= TRUNC(SYSDATE) -120 AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'")
+    cur.execute("select pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov >= TRUNC(SYSDATE) -1 AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'")
 
     lista = []
     for resultado in cur:

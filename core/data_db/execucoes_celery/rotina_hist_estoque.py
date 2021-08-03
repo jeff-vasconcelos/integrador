@@ -17,6 +17,7 @@ def rotina_tratando_hist_estoque():
     # TODO remover depois (tem que automatizar)
     historico_df['empresa'] = 1
     historico_df = historico_df.query('cod_fornecedor==267')
+    #historico_df = historico_df.query("cod_fornecedor==16")
 
     historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
@@ -28,7 +29,8 @@ def rotina_enviar_hist_estoque():
     dados = rotina_tratando_hist_estoque()
     token = login_api()
 
-    url = 'http://192.168.1.121/api/historico-estoque/'
+    url = 'http://177.136.201.66/api/historico-estoque/'
+    #url = 'http://192.168.1.121/api/historico-estoque/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',

@@ -11,6 +11,9 @@ def rotina_tratando_produto():
 
     df_produtos['empresa'] = 1
 
+    df_produtos = df_produtos.query('cod_fornecedor==16')
+    #df_produtos = df_produtos.query('cod_fornecedor==267')
+
     produtos_dic = df_produtos.assign(**df_produtos.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
 
@@ -21,7 +24,8 @@ def rotina_enviar_produto():
     dados = rotina_tratando_produto()
     token = login_api()
 
-    url = 'http://192.168.1.121/api/produto/'
+    url = 'http://177.136.201.66/api/produto/'
+    #url = 'http://192.168.1.121/api/produto/'
     headers = {
         'Authorization': token,
         'content-Type': 'application/json',

@@ -16,6 +16,7 @@ def rotina_tratando_vendas():
     #TODO remover depois (tem que automatizar)
     vendas_df['empresa'] = 1
     vendas_df = vendas_df.query("cod_fornecedor == 267")
+    #vendas_df = vendas_df.query("cod_fornecedor==16")
 
     vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -26,7 +27,8 @@ def rotina_enviar_vendas():
     dados = rotina_tratando_vendas()
     token = login_api()
 
-    url = "http://192.168.1.121/api/venda/"
+    url = 'http://177.136.201.66/api/venda/'
+    #url = "http://192.168.1.121/api/venda/"
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
