@@ -1,0 +1,1 @@
+FROM django:2.2.23
