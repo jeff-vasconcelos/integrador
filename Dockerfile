@@ -18,3 +18,4 @@ RUN apt-get update \
     && ln -snf /etc/oracle /opt/oracle/network/admin \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD root /
+#CMD docker-compose up
