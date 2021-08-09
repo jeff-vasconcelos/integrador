@@ -11,7 +11,7 @@ def rotina_tratando_produto():
 
     df_produtos['empresa'] = 1
 
-    df_produtos = df_produtos.query('cod_fornecedor==16')
+    #df_produtos = df_produtos.query('cod_fornecedor==16')
     #df_produtos = df_produtos.query('cod_fornecedor==267')
 
     produtos_dic = df_produtos.assign(**df_produtos.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(

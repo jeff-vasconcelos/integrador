@@ -16,7 +16,7 @@ def rotina_tratando_p_compras():
     # TODO remover depois (tem que automatizar)
     pedidos_df['empresa'] = 1
     #pedidos_df = pedidos_df.query('cod_fornecedor==267')
-    pedidos_df = pedidos_df.query('cod_fornecedor==16')
+    #pedidos_df = pedidos_df.query('cod_fornecedor==16')
 
     p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

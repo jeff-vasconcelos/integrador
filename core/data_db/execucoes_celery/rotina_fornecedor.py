@@ -9,7 +9,7 @@ def rotina_tratando_fornecedor():
     #fornecedor_df.fillna(0, inplace=True)
 
     fornecedor_df['empresa'] = 1
-    fornecedor_df = fornecedor_df.query('cod_fornecedor==16')
+    #fornecedor_df = fornecedor_df.query('cod_fornecedor==16')
 
     _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

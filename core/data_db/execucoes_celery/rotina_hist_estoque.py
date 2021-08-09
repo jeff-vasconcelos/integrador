@@ -16,7 +16,7 @@ def rotina_tratando_hist_estoque():
 
     # TODO remover depois (tem que automatizar)
     historico_df['empresa'] = 1
-    historico_df = historico_df.query('cod_fornecedor==267')
+    #historico_df = historico_df.query('cod_fornecedor==267')
     #historico_df = historico_df.query("cod_fornecedor==16")
 
     historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(

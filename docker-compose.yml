@@ -14,9 +14,9 @@ services:
       environment:
         - DEBUG=1
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
-        - CELERY_BROKER=redis://localhost:6379
-        - CELERY_BACKEND=redis://localhost:6379
-      image: leandroauzier/insight:django
+        - CELERY_BROKER=redis://redis:6379
+        - CELERY_BACKEND=redis://redis:6379
+      image: leandroauzier/insight:maq-virtual
       depends_on:
         - redis
   celery:

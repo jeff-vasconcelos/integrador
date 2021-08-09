@@ -12,10 +12,10 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 ADD oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm /tmp/
 RUN apt-get update \
     && apt -y install curl \
-    && VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d') \
-    && DESTINATION=/usr/local/bin/docker-compose \
-    && curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION \
-    && chmod 755 $DESTINATION \
+    #&& VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d') \
+    #&& DESTINATION=/usr/local/bin/docker-compose \
+    #&& curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION \
+    #&& chmod 755 $DESTINATION \
     && apt -y install redis-server \
     && apt-get -y install alien libaio1 \
     && alien -i /tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm \

@@ -17,7 +17,7 @@ def rotina_tratando_ultima_entrada():
     #TODO remover depois (tem que automatizar)
     ultima_entrada_df['empresa'] = 1
     #ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==267")
-    ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==16")
+    #ultima_entrada_df = ultima_entrada_df.query("cod_fornecedor==16")
 
     entradas = ultima_entrada_df.assign(**ultima_entrada_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
