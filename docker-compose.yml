@@ -3,8 +3,7 @@ version: "3.8"
 services:
 
   django:
-      build:
-        dockerfile: ./docker/django/Dockerfile
+      build: .
       container_name: django
       command: python manage.py runserver 0.0.0.0:7000
       tty: true
@@ -15,8 +14,8 @@ services:
       environment:
         - DEBUG=1
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
-        - CELERY_BROKER=redis://redis:6379
-        - CELERY_BACKEND=redis://redis:6379
+        - CELERY_BROKER=redis://localhost:6379
+        - CELERY_BACKEND=redis://localhost:6379
       image: leandroauzier/insight:django
       depends_on:
         - redis

@@ -1,4 +1,3 @@
-
 FROM python:3.6.9
 ENV PYTHONHONUNBUFFERED 1
 MAINTAINER CLUSTER - 2021
@@ -6,11 +5,18 @@ RUN mkdir /code
 WORKDIR /code
 COPY . /code/
 RUN pip install -r requirements.txt
+EXPOSE 7000:7000
 ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64
 ENV PATH=$PATH:$ORACLE_HOME/bin
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 ADD oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm /tmp/
 RUN apt-get update \
+    && apt -y install curl \
+    && VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d') \
+    && DESTINATION=/usr/local/bin/docker-compose \
+    && curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION \
+    && chmod 755 $DESTINATION \
+    && apt -y install redis-server \
     && apt-get -y install alien libaio1 \
     && alien -i /tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm \
     && ln -snf /usr/lib/oracle/11.2/client64 /opt/oracle \
@@ -18,4 +24,7 @@ RUN apt-get update \
     && ln -snf /etc/oracle /opt/oracle/network/admin \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD root /
-#CMD docker-compose up
+ENV DEBUG=1
+ENV CELERY_BROKER=redis://localhost:6379
+ENV CELERY_BACKEND=redis://localhost:6379
+CMD sh -c "redis-server & python manage.py runserver 0.0.0.0:7000 & celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"

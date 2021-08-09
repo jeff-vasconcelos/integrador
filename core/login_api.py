@@ -2,8 +2,8 @@ import requests
 
 
 def login_api():
-    usuario = 'leandroauzier'
-    senha = 'a1a3A2A4'
+    usuario = 'cluster'
+    senha = 'Cluster*2018'
 
     url = "http://177.136.201.66/api-token-auth"
     user_data = {

@@ -110,7 +110,7 @@ def query_p_vendas():
 def query_produto():
     cur, con = conn_db()
 
-    cur.execute("select pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm,pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq,pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec,pcsecao.descricao secao,pcprincipativo.descricao principio_ativo from pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo, pcfornec where pcprodut.codmarca = pcmarca.codmarca and pcprodut.codepto = pcdepto.codepto and pcprodut.codsec = pcsecao.codsec and pcprodut.codfornec = pcfornec.codfornec and pcprodut.codprincipativo = pcprincipativo.codprincipativo(+)")
+    cur.execute("select pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm,pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq,pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec,pcsecao.descricao secao,pcprincipativo.descricao principio_ativo from pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo where pcprodut.codmarca = pcmarca.codmarca(+) and pcprodut.codepto = pcdepto.codepto(+) and pcprodut.codsec = pcsecao.codsec(+) and pcprodut.codprincipativo = pcprincipativo.codprincipativo(+)")
 
     lista = []
     for resultado in cur:
