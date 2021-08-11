@@ -5,7 +5,7 @@ from celery.schedules import crontab
 from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'setup.settings')
-app = Celery('setup', broker='redis://redis:6379', backend='redis://redis:6379')
+app = Celery('setup', broker='redis://localhost:6379', backend='redis://localhost:6379')
 
 
 app.config_from_object('django.conf:settings', namespace='CELERY')

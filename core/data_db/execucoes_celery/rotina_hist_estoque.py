@@ -8,16 +8,12 @@ import json
 def rotina_tratando_hist_estoque():
     hist_estoque_df = query_hist()
     hist_estoque_df.columns = ["cod_produto", "data", "qt_estoque", "cod_filial", "cod_fornecedor"]
-    hist_estoque_df['qt_estoque'] = hist_estoque_df['qt_estoque'].replace(",", ".", regex=True).astype(int).round(3)
     hist_estoque_df['data'] = pd.to_datetime(hist_estoque_df['data'])
-    hist_estoque_df.fillna(0, inplace=True)
 
     historico_df = hist_estoque_df
 
     # TODO remover depois (tem que automatizar)
     historico_df['empresa'] = 1
-    #historico_df = historico_df.query('cod_fornecedor==267')
-    #historico_df = historico_df.query("cod_fornecedor==16")
 
     historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
         "records")
@@ -30,7 +26,7 @@ def rotina_enviar_hist_estoque():
     token = login_api()
 
     url = 'http://177.136.201.66/api/historico-estoque/'
-    #url = 'http://192.168.1.121/api/historico-estoque/'
+
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',

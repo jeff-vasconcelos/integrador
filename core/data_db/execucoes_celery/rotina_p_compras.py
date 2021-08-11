@@ -9,14 +9,11 @@ def rotina_tratando_p_compras():
     df_pedidos_compras = query_p_compras()
     df_pedidos_compras.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
     df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
-    df_pedidos_compras.fillna(0, inplace=True)
 
     pedidos_df = df_pedidos_compras
 
     # TODO remover depois (tem que automatizar)
     pedidos_df['empresa'] = 1
-    #pedidos_df = pedidos_df.query('cod_fornecedor==267')
-    #pedidos_df = pedidos_df.query('cod_fornecedor==16')
 
     p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -28,7 +25,7 @@ def rotina_enviar_p_compras():
     token = login_api()
 
     url = 'http://177.136.201.66/api/pedido-compra/'
-    #url = 'http://192.168.1.121/api/pedido-compra/'
+
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
