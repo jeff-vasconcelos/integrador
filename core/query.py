@@ -22,14 +22,12 @@ def query_ult_entrada():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
-    print(resultado)
+    #res_df = res_df.dropna()
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
 
 
 def query_estoque():
@@ -41,10 +39,8 @@ def query_estoque():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    #res_df_d = res_df.dropna()
+    #res_df = res_df.dropna()
 
-    #print(res_df_d)
-    print(resultado)
 
     cur.close()
     con.close()
@@ -61,16 +57,13 @@ def query_hist():
     lista = []
     for resultado in cur:
         lista.append(resultado)
-        print(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
-    print(resultado)
+    #res_df = res_df.dropna()
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
 
 
 def query_p_compras():
@@ -83,34 +76,30 @@ def query_p_compras():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
-    print(resultado)
+    #res_df = res_df.dropna()
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
 
 
 def query_p_vendas():
     cur, con = conn_db()
 
-    cur.execute("selequery_produto():ct pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov >= TRUNC(SYSDATE) -0 AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'")
+    cur.execute("SELECT pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov, pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov >= TRUNC(SYSDATE) -0 AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'")
     #cur.execute("select pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov BETWEEN TO_DATE('06/08/2021', 'DD/MM/YYYY')AND TO_DATE('09/08/2021', 'DD/MM/YYYY') AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'")
 
     lista = []
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
-    #print(resultado)
+    #res_df_d = res_df.dropna()
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
 
 
 def query_produto():
@@ -122,8 +111,6 @@ def query_produto():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    print(res_df)
-    print(resultado)
 
     cur.close()
     con.close()
@@ -140,11 +127,9 @@ def query_fornecedor():
     for resultado in cur:
         lista.append(resultado)
     res_df = pd.DataFrame(lista)
-    res_df_d = res_df.dropna()
-    print(res_df_d)
-    print(resultado)
+    #res_df_d = res_df.dropna()
 
     cur.close()
     con.close()
 
-    return res_df_d
+    return res_df
