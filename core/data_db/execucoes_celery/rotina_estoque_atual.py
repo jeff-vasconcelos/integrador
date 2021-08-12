@@ -10,8 +10,7 @@ def rotina_tratando_estoque_atual():
     estoque_atual_df = query_estoque()
 
     estoque_atual_df.columns = ["cod_filial", "cod_produto", "qt_geral", "qt_indenizada", "qt_reservada", "qt_pendente", "qt_bloqueada", "qt_disponivel", "custo_ult_entrada", "cod_fornecedor", "preco_venda"]
-
-    estoque_atual_df['custo_ult_entrada'] = estoque_atual_df['custo_ult_entrada'].replace(",", ".", regex=True).astype(float).round(3)
+    #estoque_atual_df['custo_ult_entrada'] = estoque_atual_df['custo_ult_entrada'].replace(",", ".", regex=True).astype(float).round(3)
     estoque_atual_df['data'] = datetime.date.today()
     estoque_atual_df['data'] = pd.to_datetime(estoque_atual_df['data'])
 
