@@ -7,17 +7,22 @@ import json
 
 def rotina_tratando_p_compras():
     df_pedidos_compras = query_p_compras()
-    df_pedidos_compras.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
-    df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
+    if df_pedidos_compras.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        df_pedidos_compras.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
+        df_pedidos_compras['data'] = pd.to_datetime(df_pedidos_compras['data'])
 
-    pedidos_df = df_pedidos_compras
+        pedidos_df = df_pedidos_compras
 
-    # TODO remover depois (tem que automatizar)
-    pedidos_df['empresa'] = 1
+        # TODO remover depois (tem que automatizar)
+        pedidos_df['empresa'] = 1
 
-    p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+        p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    return p_compras
+        return p_compras
 
 
 def rotina_enviar_p_compras():

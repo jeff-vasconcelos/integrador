@@ -7,16 +7,21 @@ import json
 
 def rotina_tratando_ultima_entrada():
     ultima_entrada_df = query_ult_entrada()
-    ultima_entrada_df.columns = ["cod_filial", "data", "vl_ult_entrada", "qt_ult_entrada", "cod_produto","cod_fornecedor"]
-    ultima_entrada_df['data'] = pd.to_datetime(ultima_entrada_df['data'])
+    if ultima_entrada_df.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        ultima_entrada_df.columns = ["cod_filial", "data", "vl_ult_entrada", "qt_ult_entrada", "cod_produto","cod_fornecedor"]
+        ultima_entrada_df['data'] = pd.to_datetime(ultima_entrada_df['data'])
 
-    #TODO remover depois (tem que automatizar)
-    ultima_entrada_df['empresa'] = 1
+        #TODO remover depois (tem que automatizar)
+        ultima_entrada_df['empresa'] = 1
 
-    entradas = ultima_entrada_df.assign(**ultima_entrada_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-        "records")
+        entradas = ultima_entrada_df.assign(**ultima_entrada_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-    return entradas
+        return entradas
 
 
 def rotina_enviar_ultima_entrada():

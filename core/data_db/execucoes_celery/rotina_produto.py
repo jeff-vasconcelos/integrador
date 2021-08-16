@@ -6,14 +6,19 @@ import json
 
 def rotina_tratando_produto():
     df_produtos = query_produto()
-    df_produtos.columns = ["cod_fornecedor", "cod_produto", "desc_produto", "cod_ncm", "cod_auxiliar", "marca", "embalagem", "quantidade_un_cx",  "peso_liquido", "cod_fabrica", "cod_depto", "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
+    if df_produtos.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        df_produtos.columns = ["cod_fornecedor", "cod_produto", "desc_produto", "cod_ncm", "cod_auxiliar", "marca", "embalagem", "quantidade_un_cx",  "peso_liquido", "cod_fabrica", "cod_depto", "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
 
-    df_produtos['empresa'] = 1
+        df_produtos['empresa'] = 1
 
-    produtos_dic = df_produtos.assign(**df_produtos.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-        "records")
+        produtos_dic = df_produtos.assign(**df_produtos.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-    return produtos_dic
+        return produtos_dic
 
 
 def rotina_enviar_produto():

@@ -7,18 +7,23 @@ import json
 
 def rotina_tratando_hist_estoque():
     hist_estoque_df = query_hist()
-    hist_estoque_df.columns = ["cod_produto", "data", "qt_estoque", "cod_filial", "cod_fornecedor"]
-    hist_estoque_df['data'] = pd.to_datetime(hist_estoque_df['data'])
+    if hist_estoque_df.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        hist_estoque_df.columns = ["cod_produto", "data", "qt_estoque", "cod_filial", "cod_fornecedor"]
+        hist_estoque_df['data'] = pd.to_datetime(hist_estoque_df['data'])
 
-    historico_df = hist_estoque_df
+        historico_df = hist_estoque_df
 
-    # TODO remover depois (tem que automatizar)
-    historico_df['empresa'] = 1
+        # TODO remover depois (tem que automatizar)
+        historico_df['empresa'] = 1
 
-    historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-        "records")
+        historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-    return historico
+        return historico
 
 
 def rotina_enviar_hist_estoque():

@@ -7,15 +7,20 @@ import json
 
 def rotina_tratando_vendas():
     vendas_df = query_p_vendas()
-    vendas_df.columns = ["data", "cod_produto", "qt_venda", "preco_unit", "cod_filial", "cliente", "num_nota", "rca","cod_fornecedor", "custo_fin", "supervisor"]
-    vendas_df['data'] = pd.to_datetime(vendas_df['data'])
+    if vendas_df.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        vendas_df.columns = ["data", "cod_produto", "qt_venda", "preco_unit", "cod_filial", "cliente", "num_nota", "rca","cod_fornecedor", "custo_fin", "supervisor"]
+        vendas_df['data'] = pd.to_datetime(vendas_df['data'])
 
-    #TODO remover depois (tem que automatizar)
-    vendas_df['empresa'] = 1
+        #TODO remover depois (tem que automatizar)
+        vendas_df['empresa'] = 1
 
-    vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+        vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    return vendas_dic
+        return vendas_dic
 
 
 def rotina_enviar_vendas():

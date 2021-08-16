@@ -5,13 +5,18 @@ import requests
 
 def rotina_tratando_fornecedor():
     fornecedor_df = query_fornecedor()
-    fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
+    if fornecedor_df.empty:
+        print("VAZIO ATÉ ENTÃO!!!")
+        retorno = {}
+        return retorno
+    else:
+        fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
 
-    fornecedor_df['empresa'] = 1
+        fornecedor_df['empresa'] = 1
 
-    _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+        _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-    return _fornecedor
+        return _fornecedor
 
 
 def rotina_enviar_fornecedor():
