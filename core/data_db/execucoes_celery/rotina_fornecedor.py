@@ -12,7 +12,7 @@ def rotina_tratando_fornecedor():
     else:
         fornecedor_df.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
 
-        fornecedor_df['empresa'] = 1
+        fornecedor_df['empresa'] = 3
 
         _fornecedor = fornecedor_df.assign(**fornecedor_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

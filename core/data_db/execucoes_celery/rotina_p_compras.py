@@ -18,7 +18,7 @@ def rotina_tratando_p_compras():
         pedidos_df = df_pedidos_compras
 
         # TODO remover depois (tem que automatizar)
-        pedidos_df['empresa'] = 1
+        pedidos_df['empresa'] = 3
 
         p_compras = pedidos_df.assign(**pedidos_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

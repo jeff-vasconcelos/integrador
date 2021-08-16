@@ -19,7 +19,7 @@ def rotina_tratando_estoque_atual():
         estoque_atual_df['data'] = pd.to_datetime(estoque_atual_df['data'])
 
         #TODO remover depois (Tem que automatizar)
-        estoque_atual_df['empresa'] = 1
+        estoque_atual_df['empresa'] = 3
 
         estoque_atual = estoque_atual_df.assign(**estoque_atual_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 

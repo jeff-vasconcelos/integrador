@@ -4,7 +4,7 @@ import pandas as pd
 
 def conn_db():
     #con = cx_Oracle.connect(config_dir="/opt/oracle/network/admin")  # user, password, DNS
-    con = cx_Oracle.connect(user="ESTRELA", password="star895thor", dsn="PROD")  # user, password, DNS
+    con = cx_Oracle.connect(user="CONSULTA", password="CONSULTA", dsn="WINT")  # user, password, DNS
     cur = con.cursor()
 
     return cur, con
