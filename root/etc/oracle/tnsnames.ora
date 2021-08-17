@@ -1,9 +1,9 @@
 
-WINT =
+PROD =
   (DESCRIPTION =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.0.252)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.86.7)(PORT = 1521))
+    )
     (CONNECT_DATA =
-      (SERVER = DEDICATED)
-      (SERVICE_NAME = WINT)
+      (SID = WINT)
     )
   )

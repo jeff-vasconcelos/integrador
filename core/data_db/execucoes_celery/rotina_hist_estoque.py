@@ -18,7 +18,7 @@ def rotina_tratando_hist_estoque():
         historico_df = hist_estoque_df
 
         # TODO remover depois (tem que automatizar)
-        historico_df['empresa'] = 3
+        historico_df['empresa'] = 5
 
         historico = historico_df.assign(**historico_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
             "records")

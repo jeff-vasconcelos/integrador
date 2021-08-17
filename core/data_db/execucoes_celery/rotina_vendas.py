@@ -16,7 +16,7 @@ def rotina_tratando_vendas():
         vendas_df['data'] = pd.to_datetime(vendas_df['data'])
 
         #TODO remover depois (tem que automatizar)
-        vendas_df['empresa'] = 3
+        vendas_df['empresa'] = 5
 
         vendas_dic = vendas_df.assign(**vendas_df.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
