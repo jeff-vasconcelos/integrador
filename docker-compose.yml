@@ -16,7 +16,7 @@ services:
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
         - CELERY_BROKER=redis://redis:6379
         - CELERY_BACKEND=redis://redis:6379
-      image: leandroauzier/insight:BrasilMed
+      image: clusterdesenvolvimento/insight:BrasilMed
       depends_on:
         - redis
   celery:
