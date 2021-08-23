@@ -30,7 +30,7 @@ def rotina_enviar_estoque_atual():
     dados = rotina_tratando_estoque_atual()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/estoque-atual/'
+    url = 'https://insight.ecluster.com.br/api/estoque-atual/'
 
     headers = {
         'Authorization': token,

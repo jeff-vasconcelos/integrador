@@ -27,7 +27,7 @@ def rotina_enviar_vendas():
     dados = rotina_tratando_vendas()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/venda/'
+    url = 'https://insight.ecluster.com.br/api/venda/'
 
     headers = {
         'Authorization': token,

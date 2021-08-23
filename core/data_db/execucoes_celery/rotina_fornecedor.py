@@ -23,7 +23,7 @@ def rotina_enviar_fornecedor():
     dados = rotina_tratando_fornecedor()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/fornecedor/'
+    url = 'https://insight.ecluster.com.br/api/fornecedor/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',

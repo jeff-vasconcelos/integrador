@@ -30,7 +30,7 @@ def rotina_enviar_hist_estoque():
     dados = rotina_tratando_hist_estoque()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/historico-estoque/'
+    url = 'https://insight.ecluster.com.br/api/historico-estoque/'
 
     headers = {
         'Authorization': token,

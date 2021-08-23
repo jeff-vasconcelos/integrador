@@ -29,7 +29,7 @@ def rotina_enviar_p_compras():
     dados = rotina_tratando_p_compras()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/pedido-compra/'
+    url = 'https://insight.ecluster.com.br/api/pedido-compra/'
 
     headers = {
         'Authorization': token,

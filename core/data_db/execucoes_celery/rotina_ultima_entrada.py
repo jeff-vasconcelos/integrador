@@ -28,7 +28,7 @@ def rotina_enviar_ultima_entrada():
     dados = rotina_tratando_ultima_entrada()
     token = login_api()
 
-    url = 'http://177.136.201.66/api/ultima-entrada/'
+    url = 'https://insight.ecluster.com.br/api/ultima-entrada/'
 
     headers = {
         'Authorization': token,
