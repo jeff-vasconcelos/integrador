@@ -36,7 +36,8 @@ def rotina_enviar_vendas():
         'Accept': 'application/json'
     }
 
-    response = requests.get(url=url, headers=headers)
+    url2 = 'https://insight.ecluster.com.br/api/integration/'
+    response = requests.get(url=url2, headers=headers)
 
     if response.status_code == 200:
         for i in dados:
