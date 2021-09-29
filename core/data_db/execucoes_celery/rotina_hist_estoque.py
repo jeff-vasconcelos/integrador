@@ -14,6 +14,7 @@ def rotina_tratando_hist_estoque():
     else:
         hist_estoque_df.columns = ["cod_produto", "data", "qt_estoque", "cod_filial", "cod_fornecedor"]
         hist_estoque_df['data'] = pd.to_datetime(hist_estoque_df['data'])
+        hist_estoque_df['cod_filial'] = hist_estoque_df['cod_filial'].astype(str).astype(int)
 
         historico_df = hist_estoque_df
 
@@ -41,7 +42,6 @@ def rotina_enviar_hist_estoque():
 
     url2 = 'https://insight.ecluster.com.br/api/integration/'
     response = requests.get(url=url2, headers=headers)
-    print(headers)
 
     if response.status_code == 200:
         for i in dados:
