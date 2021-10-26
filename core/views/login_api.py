@@ -1,14 +1,15 @@
 import requests
 
+from core.views.get_data import get_data_business
+
 
 def login_api():
-    usuario = 'cluster'
-    senha = 'Cluster*2018'
+    business = get_data_business()
 
     url = "https://insight.ecluster.com.br/api-token-auth"
     user_data = {
-        "username": usuario,
-        "password": senha
+        "username": business.username,
+        "password": business.password
     }
 
     response = requests.post(url=url, json=user_data)
