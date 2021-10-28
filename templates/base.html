@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{% static 'js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'js/css/configuracoes.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+    {% block title %}
+    {% endblock title %}
+
 </head>
-<body>
+
+<body id="page-top">
+
+<div class="container">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+<!-- SCROLL TO TOP BOTAO-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- jquey e bootstrap -->
+<script src="{% static 'aplicacao/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'aplicacao/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'aplicacao/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- JS requests -->
+<script src="{% static 'js/request_ent.js' %}"></script>
+<script src="{% static 'js/request_est.js' %}"></script>
+<script src="{% static 'js/request_fornec.js' %}"></script>
+<script src="{% static 'js/request_hist.js' %}"></script>
+<script src="{% static 'js/request_ped.js' %}"></script>
+<script src="{% static 'js/request_prod.js' %}"></script>
+<script src="{% static 'js/request_vend.js' %}"></script>
 
 </body>
+
 </html>

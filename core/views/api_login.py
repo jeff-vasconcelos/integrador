@@ -1,6 +1,5 @@
 import requests
-
-from core.views.get_data import get_data_business
+from core.views.get_data import *
 
 
 def login_api():

@@ -2,4 +2,5 @@ from django.contrib import admin
 from core.models import *
 
 
-admin.site.register(Parametros)
+admin.site.register(Configuracao)
+admin.site.register(Registro)

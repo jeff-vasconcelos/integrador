@@ -1,11 +1,11 @@
 from core.views.get_data import *
-from core.views.login_api import login_api
+from core.views.api_login import login_api
 from core.views.query_db import *
 from core.views.process_data import *
 from core.views.send_data import *
 
 
-def run_fornecedor(integration=''):
+def run_fornecedores(integration=''):
     select_sql = "SELECT pcfornec.codfornec, pcfornec.fornecedor, pcfornec.cgc CNPJ, pcfornec.ie INS_ESTADUAL " \
                  "FROM pcfornec WHERE pcfornec.revenda = 'S'"
 
@@ -24,7 +24,7 @@ def run_fornecedor(integration=''):
         send_data_tasks(url, token, lista_fornecedores)
 
 
-def run_produto(integration=''):
+def run_produtos(integration=''):
     select_sql = "SELECT pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm," \
                  "pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq," \
                  "pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec," \

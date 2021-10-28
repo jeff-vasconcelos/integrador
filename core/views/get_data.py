@@ -1,5 +1,5 @@
 import requests
-from login_api import login_api
+from core.views.api_login import login_api
 from core.models import Configuracao
 from core.models import Registro
 
