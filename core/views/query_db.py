@@ -1,6 +1,7 @@
 import cx_Oracle
 import pandas as pd
-from core.views.get_data import get_data_business, register_log
+from core.views.get_data import register_log
+from core.views.api_login import get_data_business
 
 
 def conn_db():
@@ -22,19 +23,14 @@ def queryset_oracle(select_oracle):
     cur, con = conn_db()
     cur.execute(select_oracle)
 
-    try:
+    lista_resultados = []
+    for qs_db in cur:
+        lista_resultados.append(qs_db)
 
-        lista_resultados = []
-        for qs_db in cur:
-            lista_resultados.append(qs_db)
+    df = pd.DataFrame(lista_resultados)
+    df_resultados = df.dropna()
 
-        df = pd.DataFrame(lista_resultados)
-        df_resultados = df.dropna()
+    cur.close()
+    con.close()
 
-        cur.close()
-        con.close()
-
-        return df_resultados
-    except NameError as err:
-        erro = str(err)
-        register_log(f"Error: {erro}")
+    return df_resultados

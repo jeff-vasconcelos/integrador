@@ -1,12 +1,6 @@
 import requests
 from core.views.api_login import login_api
-from core.models import Configuracao
 from core.models import Registro
-
-
-def get_data_business():
-    qs = Configuracao.objects.get(id=1)
-    return qs
 
 
 def get_fornecedores_api(id):

@@ -17,7 +17,7 @@ def request_fornecedores(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -32,7 +32,7 @@ def request_produtos(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -49,7 +49,7 @@ def request_historico(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -66,7 +66,7 @@ def request_vendas(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -83,7 +83,7 @@ def request_pedidos(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -100,7 +100,7 @@ def request_entradas(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})
@@ -115,7 +115,7 @@ def request_estoque(request):
             return JsonResponse({'data': msg})
         except NameError as err:
             erro = str(err)
-            register_log(f"Error : {erro}")
+            register_log(erro)
             return JsonResponse({'data': erro})
 
     return JsonResponse({})

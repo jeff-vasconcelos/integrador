@@ -56,7 +56,7 @@ def run_historico(dt_inicio, dt_fim, integration=''):
                  f"pcprodut.codfornec " \
                  f"FROM pchistest, pcprodut " \
                  f"WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','DD/MM/YYYY') AND TO_DATE('{dt_fim}','DD/MM/YYYY') " \
+                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
                  f"ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data"
 
     token = login_api()
@@ -78,7 +78,7 @@ def run_vendas(dt_inicio, dt_fim, integration=''):
     select_sql = f"SELECT pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente," \
                  f" pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR " \
                  f"FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv " \
-                 f"WHERE pcmov.dtmov BETWEEN TO_DATE('{dt_inicio}','DD/MM/YYYY') AND TO_DATE('{dt_fim}','DD/MM/YYYY') " \
+                 f"WHERE pcmov.dtmov BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
                  f"AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur " \
                  f"AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli " \
                  f"AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'"
@@ -103,7 +103,7 @@ def run_pedidos(dt_inicio, dt_fim, integration=''):
                  f"AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido " \
                  f"WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped " \
                  f"AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','DD/MM/YYYY') AND TO_DATE('{dt_fim}','DD/MM/YYYY')"
+                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD')"
 
     token = login_api()
 
@@ -123,7 +123,7 @@ def run_pedidos(dt_inicio, dt_fim, integration=''):
 def run_entradas(dt_inicio, dt_fim, integration=''):
     select_sql = f"SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, " \
                  f"pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','DD/MM/YYYY') AND TO_DATE('{dt_fim}','DD/MM/YYYY') " \
+                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
                  f"AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)"
 
     token = login_api()

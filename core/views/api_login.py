@@ -1,5 +1,10 @@
 import requests
-from core.views.get_data import *
+from core.models import Configuracao
+
+
+def get_data_business():
+    qs = Configuracao.objects.get(id=1)
+    return qs
 
 
 def login_api():

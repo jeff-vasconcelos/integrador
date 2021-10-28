@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Agora sim</h1>
+<div class="col-md-7">
+    <div class="row">
+        {% csrf_token %}
+        <h5>Enviar dados de integração</h5>
+        {% include 'parciais/fornecedores.html' %}
+        {% include 'parciais/produtos.html' %}
+        {% include 'parciais/historico.html' %}
+        {% include 'parciais/vendas.html' %}
+        {% include 'parciais/pedidos.html' %}
+        {% include 'parciais/entradas.html' %}
+        {% include 'parciais/estoque.html' %}
+
+    </div>
+</div>
+<div class="col-md-5">
+    <h5>Logs</h5>
+    {% include 'parciais/area_log.html' %}
+</div>
+
+
 {% endblock content %}

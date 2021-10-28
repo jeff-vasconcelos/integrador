@@ -22,7 +22,7 @@ class Configuracao(models.Model):
 
 
 class Registro(models.Model):
-    message = models.CharField(max_length=255, blank=True, null=True)
+    message = models.TextField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -30,4 +30,4 @@ class Registro(models.Model):
         verbose_name_plural = 'Registros'
 
     def __str__(self):
-        return self.created_at
+        return self.message
