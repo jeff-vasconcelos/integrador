@@ -7,31 +7,37 @@ from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'setup.settings')
 app = Celery('setup', broker='redis://localhost:6379', backend='redis://localhost:6379')
 
-
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    'rotina-estoque-atual': {
-        'task': 'core.tasks.rotina_estoque_atual',
+    'rotina-fornecedores': {
+        'task': 'core.tasks.task_fornecedores',
         'schedule': crontab(minute=0, hour=22),
     },
-    'rotina-hist-estoque': {
-        'task': 'core.tasks.rotina_hist_estoque',
+    'rotina-produto': {
+        'task': 'core.tasks.task_produtos',
         'schedule': crontab(minute=0, hour=22),
     },
-    'rotina-p-compras': {
-        'task': 'core.tasks.rotina_p_compras',
-        'schedule': crontab(minute=0, hour=22),
-    },
-    'rotina-ultima-entrada': {
-        'task': 'core.tasks.rotina_ultima_entrada',
+    'rotina-historico': {
+        'task': 'core.tasks.task_historico',
         'schedule': crontab(minute=0, hour=22),
     },
     'rotina-vendas': {
-        'task': 'core.tasks.rotina_vendas',
+        'task': 'core.tasks.task_vendas',
+        'schedule': crontab(minute=0, hour=22),
+    },
+    'rotina-pedidos': {
+        'task': 'core.tasks.task_pedidos',
+        'schedule': crontab(minute=0, hour=22),
+    },
+    'rotina-entradas': {
+        'task': 'core.tasks.task_entradas',
+        'schedule': crontab(minute=0, hour=22),
+    },
+    'rotina-estoque': {
+        'task': 'core.tasks.task_estoque',
         'schedule': crontab(minute=0, hour=22),
     },
 }
-
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
