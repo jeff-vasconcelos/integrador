@@ -23,5 +23,5 @@ ADD root /
 ENV DEBUG=1
 ENV CELERY_BROKER=redis://localhost:6379
 ENV CELERY_BACKEND=redis://localhost:6379
-RUN python manage.py makemigrations && python manage.py migrate && python manage.py loaddata auth_user.json
-CMD sh -c "redis-server  & celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+CMD sh -c "redis-server"
+#CMD sh -c "redis-server  & celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
