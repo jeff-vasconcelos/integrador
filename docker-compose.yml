@@ -20,8 +20,7 @@ services:
       - redis
   celery:
     build: .
-    command: celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-    #command: sh -c "celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    command: bash -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     volumes:
       - .:/code/
     depends_on:
@@ -29,8 +28,5 @@ services:
       - redis
   redis:
     image: "redis:alpine"
-#    container_name: redis
-#    command: sh -c "redis-server"
-
-volumes:
-  - .:/code/
+    volumes:
+      - .:/code/
