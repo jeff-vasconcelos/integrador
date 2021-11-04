@@ -5,7 +5,7 @@ from core.views.get_data import register_log
 
 
 def send_data_integration(url, token, lista_dados):
-
+    
     len_lista = len(lista_dados)
 
     if len_lista > 20:
@@ -33,7 +33,11 @@ def send_data(url, token, dados):
     url_valid_test = 'https://insight.ecluster.com.br/api/integration/'
     response = requests.get(url=url_valid_test, headers=headers)
 
+    print(url)
+    print(dados)
+
     if response.status_code == 200:
+        print("logou e respondeu")
         for i in dados:
             data = json.dumps(i)
 
@@ -47,4 +51,5 @@ def send_data(url, token, dados):
 
         return response.status_code
     else:
+        print("NÃO LOGOU")
         register_log('Error: Não foi possivel conectar ao servidor')

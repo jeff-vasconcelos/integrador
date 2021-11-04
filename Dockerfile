@@ -1,12 +1,11 @@
+
 FROM python:3.6.9
 ENV PYTHONHONUNBUFFERED 1
-MAINTAINER CLUSTER
 RUN mkdir /code
 WORKDIR /code
 COPY . /code/
 RUN pip install -r requirements.txt
-EXPOSE 8000:8000
-
+EXPOSE 7000:7000
 ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64
 ENV PATH=$PATH:$ORACLE_HOME/bin
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
@@ -22,6 +21,6 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD root /
 #ENV DEBUG=1
-#ENV CELERY_BROKER=redis://localhost:6379
-#ENV CELERY_BACKEND=redis://localhost:6379
-#CMD sh -c "redis-server & celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+#ENV CELERY_BROKER=redis://redis:6379
+#ENV CELERY_BACKEND=redis://redis:6379
+#CMD sh -c "redis-server & python manage.py runserver 0.0.0.0:7000 & celery -A setup worker -l INFO --concurrency=5 -n worker1@%h & celery -A setup worker -l INFO --concurrency=5 -n worker2@%h & celery -A setup worker -l INFO --concurrency=5 -n worker3@%h & celery -A setup worker -l INFO --concurrency=5 -n worker4@%h & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"

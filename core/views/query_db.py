@@ -9,7 +9,9 @@ def conn_db():
     Função responsável por conectar ao TNS do DB
     """
     business = get_data_business()
-    con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
+    #con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
+    con = cx_Oracle.connect(user="ESTRELA", password="star895thor", dsn="PROD")
+
     cur = con.cursor()
 
     return cur, con

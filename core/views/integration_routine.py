@@ -6,8 +6,7 @@ from core.views.send_data import *
 
 
 def run_fornecedores(integration=''):
-    select_sql = "SELECT pcfornec.codfornec, pcfornec.fornecedor, pcfornec.cgc CNPJ, pcfornec.ie INS_ESTADUAL " \
-                 "FROM pcfornec WHERE pcfornec.revenda = 'S'"
+    select_sql = "SELECT pcfornec.codfornec, pcfornec.fornecedor, pcfornec.cgc CNPJ, pcfornec.ie INS_ESTADUAL FROM pcfornec WHERE pcfornec.revenda = 'S'"
 
     token = login_api()
 

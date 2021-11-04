@@ -11,7 +11,7 @@ def process_fornecedores(df_fornecedores):
         df_fornecedores.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
 
         business = get_data_business()
-        df_fornecedores['empresa'] = business.empresa_id
+        df_fornecedores['empresa'] = int(business.empresa_id)
 
         dict_fornecedor = df_fornecedores.assign(
             **df_fornecedores.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
@@ -21,7 +21,9 @@ def process_fornecedores(df_fornecedores):
     else:
         register_log('Error: consulta ao banco de dados retornou vazia (FORNECEDORES)')
         vazio = {}
+        print("RETORNOU VAZIO")
         return vazio
+        
 
 
 def process_produtos(df_produtos, integration=''):
