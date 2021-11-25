@@ -9,8 +9,8 @@ def task_fornecedores():
         print('Executando tarefa: Fornecedores...')
         run_fornecedores(integration=False)
         print('Fornecedores - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Fornecedor - {str(err)}"
         register_log(erro)
 
 
@@ -20,8 +20,8 @@ def task_produtos():
         print('Executando tarefa: Produtos...')
         run_produtos(integration=False)
         print('Produtos - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Produto - {str(err)}"
         register_log(erro)
 
 
@@ -33,8 +33,8 @@ def task_historico():
         fim = inicio - datetime.timedelta(days=1)
         run_historico(dt_inicio=inicio, dt_fim=fim, integration=False)
         print('Historico - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Histórico - {str(err)}"
         register_log(erro)
 
 
@@ -46,8 +46,8 @@ def task_vendas():
         fim = inicio - datetime.timedelta(days=1)
         run_vendas(dt_inicio=inicio, dt_fim=fim, integration=False)
         print('Vendas - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Vendas - {str(err)}"
         register_log(erro)
 
 
@@ -59,8 +59,8 @@ def task_pedidos():
         fim = inicio - datetime.timedelta(days=90)
         run_pedidos(dt_inicio=inicio, dt_fim=fim, integration=False)
         print('Pedidos - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Pedidos - {str(err)}"
         register_log(erro)
 
 
@@ -72,8 +72,8 @@ def task_entradas():
         fim = inicio - datetime.timedelta(days=1)
         run_entradas(dt_inicio=inicio, dt_fim=fim, integration=False)
         print('Entradas - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Entradas - {str(err)}"
         register_log(erro)
 
 
@@ -83,6 +83,6 @@ def task_estoque():
         print('Executando tarefa: Estoque...')
         run_estoque(integration=False)
         print('Estoque - Concluído!')
-    except NameError as err:
-        erro = str(err)
+    except ValueError as err:
+        erro = f"(Task) Estoque - {str(err)}"
         register_log(erro)

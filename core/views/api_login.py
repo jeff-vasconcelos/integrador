@@ -25,3 +25,5 @@ def login_api():
         token = "Token "
         token += token_puro
         return token
+    else:
+        raise ValueError('Erro: Não foi possivel realizar login no servidor')

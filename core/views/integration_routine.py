@@ -11,7 +11,20 @@ def run_fornecedores(integration=''):
     token = login_api()
 
     df_fornecedores = queryset_oracle(select_oracle=select_sql)
-
+    
+    #TODO REMOVER - USADO EM TESTES
+    #listinha = [
+    #    [689898, "lukas", "155499", "311644981"],
+    #    [897422, "welleson", "155499", "311644981"],
+    #    [897423, "ana", "155499", "311644981"],
+    #    [897424, "colares", "155499", "311644981"],
+    #]
+    # lista de listas
+    
+    #df = pd.DataFrame(listinha)
+    #df_fornecedores = df
+    #TODO FIM REMOVER
+    
     if integration:
         url = "https://insight.ecluster.com.br/api/integration/fornecedor/"
         lista_fornecedores = process_fornecedores(df_fornecedores)
@@ -24,17 +37,7 @@ def run_fornecedores(integration=''):
 
 
 def run_produtos(integration=''):
-    select_sql = "SELECT pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm," \
-                 "pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq," \
-                 "pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec," \
-                 "pcsecao.descricao secao,pcprincipativo.descricao principio_ativo " \
-                 "FROM pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo, pcfornec " \
-                 "WHERE pcprodut.codmarca = pcmarca.codmarca(+) " \
-                 "AND pcprodut.codepto = pcdepto.codepto(+) " \
-                 "AND pcprodut.codsec = pcsecao.codsec(+) " \
-                 "AND pcprodut.codfornec = pcfornec.codfornec(+) " \
-                 "AND pcprodut.codprincipativo = pcprincipativo.codprincipativo(+) " \
-                 "AND pcprodut.obs2 <> 'FL' and pcprodut.dtexclusao is null"
+    select_sql = "SELECT pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm, pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq, pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec, pcsecao.descricao secao,pcprincipativo.descricao principio_ativo FROM pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo, pcfornec WHERE pcprodut.codmarca = pcmarca.codmarca(+) AND pcprodut.codepto = pcdepto.codepto(+) AND pcprodut.codsec = pcsecao.codsec(+) AND pcprodut.codfornec = pcfornec.codfornec(+) AND pcprodut.codprincipativo = pcprincipativo.codprincipativo(+) AND pcprodut.obs2 <> 'FL' and pcprodut.dtexclusao is null"
 
     token = login_api()
 
@@ -51,12 +54,7 @@ def run_produtos(integration=''):
 
 
 def run_historico(dt_inicio, dt_fim, integration=''):
-    select_sql = f"SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, " \
-                 f"pcprodut.codfornec " \
-                 f"FROM pchistest, pcprodut " \
-                 f"WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
-                 f"ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data"
+    select_sql = f"SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data"
 
     token = login_api()
 
@@ -74,13 +72,7 @@ def run_historico(dt_inicio, dt_fim, integration=''):
 
 
 def run_vendas(dt_inicio, dt_fim, integration=''):
-    select_sql = f"SELECT pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente," \
-                 f" pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR " \
-                 f"FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv " \
-                 f"WHERE pcmov.dtmov BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
-                 f"AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur " \
-                 f"AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli " \
-                 f"AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'"
+    select_sql = f"SELECT pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'"
 
     token = login_api()
 
@@ -98,11 +90,7 @@ def run_vendas(dt_inicio, dt_fim, integration=''):
 
 
 def run_pedidos(dt_inicio, dt_fim, integration=''):
-    select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue " \
-                 f"AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido " \
-                 f"WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped " \
-                 f"AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD')"
+    select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD')"
 
     token = login_api()
 
@@ -120,10 +108,7 @@ def run_pedidos(dt_inicio, dt_fim, integration=''):
 
 
 def run_entradas(dt_inicio, dt_fim, integration=''):
-    select_sql = f"SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, " \
-                 f"pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent " \
-                 f"BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') " \
-                 f"AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)"
+    select_sql = f"SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent BETWEEN TO_DATE('{dt_inicio}','YYYY/MM/DD') AND TO_DATE('{dt_fim}','YYYY/MM/DD') AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)"
 
     token = login_api()
 
@@ -141,14 +126,7 @@ def run_entradas(dt_inicio, dt_fim, integration=''):
 
 
 def run_estoque(integration=''):
-    select_sql = f"SELECT pcest.codfilial, pcest.codprod, pcest.qtestger, pcest.qtindeniz, pcest.qtreserv, " \
-                 f"pcest.qtpendente, pcest.qtbloqueada, pcest.qtestger - ((pcest.qtindeniz + pcest.qtreserv + " \
-                 f"pcest.qtpendente + pcest.qtbloqueada) - pcest.qtindeniz) " \
-                 f"AS Qtd_Disp, pcest.custoultent, pcfornec.codfornec, pctabpr.pvenda " \
-                 f"FROM pcprodut, pcest, pcfornec, pctabpr WHERE pcest.codprod = pcprodut.codprod " \
-                 f"AND pcprodut.codprod = pctabpr.codprod AND pcprodut.codfornec = pcfornec.codfornec " \
-                 f"AND pcest.codfilial in (1) AND pctabpr.numregiao = 1 AND pcprodut.obs2 <> 'FL' " \
-                 f"AND pcprodut.dtexclusao is null"
+    select_sql = f"SELECT pcest.codfilial, pcest.codprod, pcest.qtestger, pcest.qtindeniz, pcest.qtreserv, pcest.qtpendente, pcest.qtbloqueada, pcest.qtestger - ((pcest.qtindeniz + pcest.qtreserv + pcest.qtpendente + pcest.qtbloqueada) - pcest.qtindeniz) AS Qtd_Disp, pcest.custoultent, pcfornec.codfornec, pctabpr.pvenda FROM pcprodut, pcest, pcfornec, pctabpr WHERE pcest.codprod = pcprodut.codprod AND pcprodut.codprod = pctabpr.codprod AND pcprodut.codfornec = pcfornec.codfornec AND pcest.codfilial in (1) AND pctabpr.numregiao = 1 AND pcprodut.obs2 <> 'FL' AND pcprodut.dtexclusao is null"
 
     token = login_api()
 

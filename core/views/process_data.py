@@ -9,7 +9,6 @@ def process_fornecedores(df_fornecedores):
     """  """
     if not df_fornecedores.empty:
         df_fornecedores.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
-
         business = get_data_business()
         df_fornecedores['empresa'] = int(business.empresa_id)
 
@@ -19,11 +18,7 @@ def process_fornecedores(df_fornecedores):
         return dict_fornecedor
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (FORNECEDORES)')
-        vazio = {}
-        print("RETORNOU VAZIO")
-        return vazio
-        
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')      
 
 
 def process_produtos(df_produtos, integration=''):
@@ -47,9 +42,7 @@ def process_produtos(df_produtos, integration=''):
         return dict_produtos
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (PRODUTOS)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
 def process_historico(df_historico, integration=''):
@@ -77,9 +70,7 @@ def process_historico(df_historico, integration=''):
         return dict_historico
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (HISTORICO)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
 def process_vendas(df_vendas, integration=''):
@@ -107,9 +98,7 @@ def process_vendas(df_vendas, integration=''):
         return dict_vendas
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (VENDAS)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
 def process_entradas(df_entrada, integration=''):
@@ -137,9 +126,7 @@ def process_entradas(df_entrada, integration=''):
         return dict_entradas
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (ENTRADAS)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
 def process_pedidos(df_pedidos, integration=''):
@@ -166,9 +153,7 @@ def process_pedidos(df_pedidos, integration=''):
         return dict_pedido
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (PEDIDOS)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
 def process_estoque(df_estoque, integration=''):
@@ -200,6 +185,4 @@ def process_estoque(df_estoque, integration=''):
         return dict_estoque
 
     else:
-        register_log('Error: consulta ao banco de dados retornou vazia (ESTOQUE)')
-        vazio = {}
-        return vazio
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')

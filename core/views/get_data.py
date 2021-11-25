@@ -1,6 +1,8 @@
 import requests
+import datetime
 from core.views.api_login import login_api
 from core.models import Registro
+from django.http import HttpResponse
 
 
 def get_fornecedores_api(id):
@@ -64,5 +66,13 @@ def get_filial_api(id):
 
 
 def register_log(message):
-    log_register = Registro.objects.create(message=message)
-    log_register.save()
+    
+    message_date = f"{datetime.datetime.now()} {message}"
+    
+    f = open('log.txt', 'a', encoding='utf-8')
+    f.write(message_date)
+    f.write('\n')
+    f.close()
+    
+    #log_register = Registro.objects.create(message=message)
+    #log_register.save()

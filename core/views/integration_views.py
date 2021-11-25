@@ -12,11 +12,11 @@ def request_fornecedores(request):
     if request.is_ajax():
         try:
             run_fornecedores(integration=True)
-            msg = "Success: Integração - Fornecedores enviados com sucesso!"
+            msg = "Fornecedor - Sucesso ao enviar fornecedores!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Fornecedor - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -27,11 +27,11 @@ def request_produtos(request):
     if request.is_ajax():
         try:
             run_produtos(integration=True)
-            msg = "Success: Integração - Produtos enviados com sucesso!"
+            msg = "Produto - Sucesso ao enviar produtos!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Produto - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -44,11 +44,11 @@ def request_historico(request):
         fim = request.POST.get('dt_fim')
         try:
             run_historico(dt_inicio=inicio, dt_fim=fim, integration=True)
-            msg = "Success: Integração - Histórico enviado com sucesso!"
+            msg = "Histórico - Sucesso ao enviar historico!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Histórico - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -61,11 +61,11 @@ def request_vendas(request):
         fim = request.POST.get('dt_fim')
         try:
             run_vendas(dt_inicio=inicio, dt_fim=fim, integration=True)
-            msg = "Success: Integração - Vendas enviadas com sucesso!"
+            msg = "Vendas - Sucesso ao enviar vendas!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Vendas - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -78,11 +78,11 @@ def request_pedidos(request):
         fim = request.POST.get('dt_fim')
         try:
             run_pedidos(dt_inicio=inicio, dt_fim=fim, integration=True)
-            msg = "Success: Integração - Pedidos enviados com sucesso!"
+            msg = "Pedidos - Sucesso ao enviar pedidos!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Pedidos - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -95,11 +95,11 @@ def request_entradas(request):
         fim = request.POST.get('dt_fim')
         try:
             run_entradas(dt_inicio=inicio, dt_fim=fim, integration=True)
-            msg = "Success: Integração - Entradas enviadas com sucesso!"
+            msg = "Entradas - Sucesso ao enviar entradas!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Entradas - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 
@@ -110,11 +110,11 @@ def request_estoque(request):
     if request.is_ajax():
         try:
             run_estoque(integration=True)
-            msg = "Success: Integração - Estoque enviado com sucesso!"
+            msg = "Estoque - Sucesso ao enviar estoque!"
             register_log(msg)
             return JsonResponse({'data': msg})
-        except NameError as err:
-            erro = str(err)
+        except ValueError as err:
+            erro = f"Estoque - {str(err)}"
             register_log(erro)
             return JsonResponse({'data': erro})
 

@@ -1,3 +1,4 @@
+from os import error
 import requests
 import json
 import time
@@ -5,7 +6,7 @@ from core.views.get_data import register_log
 
 
 def send_data_integration(url, token, lista_dados):
-    
+
     len_lista = len(lista_dados)
 
     if len_lista > 20:
@@ -30,26 +31,15 @@ def send_data(url, token, dados):
         'Accept': 'application/json'
     }
 
-    url_valid_test = 'https://insight.ecluster.com.br/api/integration/'
+    url_valid_test = 'https://insight.ecluster.com.br/api/integration/os'
     response = requests.get(url=url_valid_test, headers=headers)
 
-    print(url)
-    print(dados)
-
     if response.status_code == 200:
-        print("logou e respondeu")
         for i in dados:
             data = json.dumps(i)
 
-            try:
-                response = requests.post(url=url, headers=headers, data=data)
-
-            except requests.ConnectionError:
-                register_log('Error: Falha na conexão, reconectando em 150 segundos')
-                time.sleep(150)
-                response = requests.post(url=url, headers=headers, data=data)
+            response = requests.post(url=url, headers=headers, data=data)
 
         return response.status_code
     else:
-        print("NÃO LOGOU")
-        register_log('Error: Não foi possivel conectar ao servidor')
+        raise ValueError('Erro: Não foi possivel conectar ao servidor')
