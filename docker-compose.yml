@@ -20,6 +20,7 @@ services:
       depends_on:
         - redis
   celery:
+      restart: always
       build: .
       command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
       container_name: celery

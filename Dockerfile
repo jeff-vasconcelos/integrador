@@ -1,5 +1,5 @@
 
-FROM python:3.6.9
+FROM python:3.8
 ENV PYTHONHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
