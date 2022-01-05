@@ -1,8 +1,8 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '!9h0o(rdbb@c)mpc@ve$wt*k=7_r7!g9%6wllrp3otb+3)&0c_'
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', '!9h0o(rdbb@c)mpc@ve$wt*k=7_r7!g9%6wllrp3otb+3)&0c_')
+DEBUG = os.environ.get('DEBUG', 'False')
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -89,7 +89,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379")
 CELERY_IMPORTS = ('core.tasks',)
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -100,7 +100,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

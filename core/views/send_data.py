@@ -6,7 +6,6 @@ from core.views.get_data import register_log
 
 
 def send_data_integration(url, token, lista_dados):
-
     len_lista = len(lista_dados)
 
     if len_lista > 20:
@@ -31,13 +30,12 @@ def send_data(url, token, dados):
         'Accept': 'application/json'
     }
 
-    url_valid_test = 'https://insight.ecluster.com.br/api/integration/os'
+    url_valid_test = 'https://insight.ecluster.com.br/api/integration/'
     response = requests.get(url=url_valid_test, headers=headers)
 
     if response.status_code == 200:
         for i in dados:
             data = json.dumps(i)
-
             response = requests.post(url=url, headers=headers, data=data)
 
         return response.status_code

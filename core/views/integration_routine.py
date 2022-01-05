@@ -66,7 +66,7 @@ def run_historico(dt_inicio, dt_fim, integration=''):
         send_data_integration(url, token, lista_historico)
 
     else:
-        url = "https://insight.ecluster.com.br/api/historico/"
+        url = "https://insight.ecluster.com.br/api/historico-estoque/"
         lista_historico = process_historico(df_historico, False)
         send_data_tasks(url, token, lista_historico)
 
@@ -79,12 +79,12 @@ def run_vendas(dt_inicio, dt_fim, integration=''):
     df_vendas = queryset_oracle(select_oracle=select_sql)
 
     if integration:
-        url = "https://insight.ecluster.com.br/api/integration/vendas/"
+        url = "https://insight.ecluster.com.br/api/integration/venda/"
         lista_vendas = process_vendas(df_vendas, True)
         send_data_integration(url, token, lista_vendas)
 
     else:
-        url = "https://insight.ecluster.com.br/api/vendas/"
+        url = "https://insight.ecluster.com.br/api/venda/"
         lista_vendas = process_vendas(df_vendas, False)
         send_data_tasks(url, token, lista_vendas)
 
@@ -97,12 +97,12 @@ def run_pedidos(dt_inicio, dt_fim, integration=''):
     df_pedidos = queryset_oracle(select_oracle=select_sql)
 
     if integration:
-        url = "https://insight.ecluster.com.br/api/integration/pedidos/"
+        url = "https://insight.ecluster.com.br/api/integration/pedido/"
         lista_pedidos = process_pedidos(df_pedidos, True)
         send_data_integration(url, token, lista_pedidos)
 
     else:
-        url = "https://insight.ecluster.com.br/api/pedidos/"
+        url = "https://insight.ecluster.com.br/api/pedido-compra/"
         lista_pedidos = process_pedidos(df_pedidos, False)
         send_data_tasks(url, token, lista_pedidos)
 
@@ -115,12 +115,12 @@ def run_entradas(dt_inicio, dt_fim, integration=''):
     df_entradas = queryset_oracle(select_oracle=select_sql)
 
     if integration:
-        url = "https://insight.ecluster.com.br/api/integration/entradas/"
+        url = "https://insight.ecluster.com.br/api/integration/entrada/"
         lista_entradas = process_entradas(df_entradas, True)
         send_data_integration(url, token, lista_entradas)
 
     else:
-        url = "https://insight.ecluster.com.br/api/entradas/"
+        url = "https://insight.ecluster.com.br/api/ultima-entrada/"
         lista_entradas = process_entradas(df_entradas, False)
         send_data_tasks(url, token, lista_entradas)
 
@@ -133,11 +133,12 @@ def run_estoque(integration=''):
     df_estoque = queryset_oracle(select_oracle=select_sql)
 
     if integration:
-        url = "https://insight.ecluster.com.br/api/integration/entradas/"
+        url = "https://insight.ecluster.com.br/api/integration/estoque/"
         lista_estoque = process_estoque(df_estoque, True)
+
         send_data_integration(url, token, lista_estoque)
 
     else:
-        url = "https://insight.ecluster.com.br/api/entradas/"
+        url = "https://insight.ecluster.com.br/api/estoque-atual/"
         lista_estoque = process_estoque(df_estoque, False)
         send_data_tasks(url, token, lista_estoque)

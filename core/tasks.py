@@ -3,6 +3,11 @@ from celery import shared_task
 from core.views.integration_routine import *
 
 
+@shared_task()
+def tests():
+    print("agora ta valendo o celery, executando em background")
+
+
 @shared_task
 def task_fornecedores():
     try:

@@ -1,4 +1,5 @@
 import cx_Oracle
+import os
 import pandas as pd
 from core.views.get_data import register_log
 from core.views.api_login import get_data_business
@@ -9,8 +10,12 @@ def conn_db():
     Função responsável por conectar ao TNS do DB
     """
     business = get_data_business()
-    con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
-    #con = cx_Oracle.connect(user="ESTRELA", password="star895thor", dsn="PROD")
+    #con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
+    con = cx_Oracle.connect(
+        user=os.environ.get('ORACLE_DB_USER'),
+        password=os.environ.get('ORACLE_DB_PASSWORD'),
+        dsn=os.environ.get('ORACLE_DB_DSN')
+    )
 
     cur = con.cursor()
     print("CONECTOU ORACLE")

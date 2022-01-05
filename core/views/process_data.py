@@ -158,6 +158,7 @@ def process_pedidos(df_pedidos, integration=''):
 
 def process_estoque(df_estoque, integration=''):
     if not df_estoque.empty:
+
         df_estoque.columns = ["cod_filial", "cod_produto", "qt_geral", "qt_indenizada", "qt_reservada",
                               "qt_pendente", "qt_bloqueada", "qt_disponivel", "custo_ult_entrada",
                               "cod_fornecedor", "preco_venda"]
@@ -171,9 +172,9 @@ def process_estoque(df_estoque, integration=''):
         df_estoque.fillna('0', inplace=True)
 
         if integration:
-            lista_fornecedores = get_fornecedores_api(id)
-            lista_produtos = get_produtos_api(id)
-            lista_filial = get_filial_api(id)
+            lista_fornecedores = get_fornecedores_api(business.empresa_id)
+            lista_produtos = get_produtos_api(business.empresa_id)
+            lista_filial = get_filial_api(business.empresa_id)
 
             df_estoque = df_estoque.query("cod_fornecedor == @lista_fornecedores")
             df_estoque = df_estoque.query("cod_produto == @lista_produtos")

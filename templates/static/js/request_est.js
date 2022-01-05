@@ -1,12 +1,10 @@
 
-let sendEstoque = (inicio, fim) => {
+let sendEstoque = () => {
     $.ajax({
         type: 'POST',
-        url: '/integration/request-entradas/',
+        url: '/integration/request-estoque/',
         data: {
-            'csrfmiddlewaretoken': csrf,
-            'dt_inicio': inicio,
-            'dt_fim': fim
+            'csrfmiddlewaretoken': csrf
         },
         success: (response) => {
             let message = response.data
@@ -17,17 +15,15 @@ let sendEstoque = (inicio, fim) => {
         error: function (error) {
             console.log(error)
             log_register.innerHTML += `
-                <p style="color: darkred" class="card-text-log"> >> Erro ao enviar entradas!</p>
+                <p style="color: darkred" class="card-text-log"> >> Erro ao enviar estoque!</p>
             `
         }
     })
 }
 
 function clickSendEstoque () {
-    let date_start = document.getElementById('input-date-start-entradas').value
-    let date_end = document.getElementById('input-date-end-entradas').value
     log_register.innerHTML += `
-        <p class="card-text-log"> >> Iniciando envio de entradas!</p>
+        <p class="card-text-log"> >> Iniciando envio de estoque!</p>
     `
-    sendEstoque(date_start, date_end)
+    sendEstoque()
 }

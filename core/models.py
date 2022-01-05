@@ -7,12 +7,6 @@ class Configuracao(models.Model):
     empresa = models.CharField(max_length=84, null=True, blank=True)
     empresa_id = models.CharField(max_length=84, null=True, blank=True)
 
-    user_db = models.CharField(max_length=84, null=True, blank=True)
-    password_db = models.CharField(max_length=84, null=True, blank=True)
-    host_db = models.CharField(max_length=84, null=True, blank=True)
-    port_db = models.CharField(max_length=84, null=True, blank=True)
-    service_db = models.CharField(max_length=84, null=True, blank=True)
-
     class Meta:
         verbose_name = 'Configuração'
         verbose_name_plural = 'Configurações'

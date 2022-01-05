@@ -1,33 +1,34 @@
 version: "3.8"
 
 services:
-
   django:
-      build: .
-      container_name: django
-      command: python manage.py runserver 0.0.0.0:7000
-      tty: true
-      volumes:
-        - .:/code/
-      ports:
-        - "7000:7000"
-      environment:
-        - DEBUG=1
-        - DJANGO_ALLOWED_HOSTS=redis 127.0.0.1
-        - CELERY_BROKER=redis://redis:6379
-        - CELERY_BACKEND=redis://redis:6379
-      image: clusterdesenvolvimento/insight:DistribuidoraEstrela
-      depends_on:
-        - redis
+    build:
+      context: .
+    container_name: django
+    image: clusterdesenvolvimento/insight:Estrela
+    command: sh -c "python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    tty: true
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/code/
+
   celery:
-      restart: always
-      build: .
-      command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-      container_name: celery
-      volumes:
-        - .:/code/
-      depends_on:
-        - django
-        - redis
+    build:
+      context: .
+    command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    container_name: celery
+    env_file:
+      - .env
+    volumes:
+      - .:/code/
+    depends_on:
+      - redis
+      - django
+
   redis:
-      image: "redis:alpine"
+    container_name: redis
+    image: "redis:alpine"

@@ -3,6 +3,7 @@ from django.shortcuts import render
 from core.views.integration_routine import *
 from core.views.get_data import register_log
 
+# from core.tasks import *
 
 def home_index(request, template_name='home.html'):
     return render(request, template_name)
@@ -10,6 +11,7 @@ def home_index(request, template_name='home.html'):
 
 def request_fornecedores(request):
     if request.is_ajax():
+        # tests.delay()
         try:
             run_fornecedores(integration=True)
             msg = "Fornecedor - Sucesso ao enviar fornecedores!"
