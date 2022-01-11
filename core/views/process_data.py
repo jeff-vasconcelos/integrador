@@ -156,6 +156,28 @@ def process_pedidos(df_pedidos, integration=''):
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
+def process_order_duplicate(df_orders):
+    if not df_orders.empty:
+        df_orders.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
+        df_orders['data'] = pd.to_datetime(df_orders['data'])
+        df_orders['cod_filial'] = df_orders['cod_filial'].astype(str).astype(int)
+
+        business = get_data_business()
+        df_orders['empresa'] = business.empresa_id
+
+        list_orders = get_orders_api(business.empresa_id)
+
+        df_orders = df_orders.query("num_pedido != @list_orders")
+
+        dict_orders = df_orders.assign(**df_orders.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
+
+        return dict_orders, business.empresa_id
+
+    else:
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
+
+
 def process_estoque(df_estoque, integration=''):
     if not df_estoque.empty:
 

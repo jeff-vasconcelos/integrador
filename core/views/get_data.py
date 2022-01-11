@@ -8,7 +8,7 @@ from django.http import HttpResponse
 def get_fornecedores_api(id):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/fornecedor/empresa/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ def get_fornecedores_api(id):
 def get_produtos_api(id):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/produto/empresa/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/products-company/{id}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ def get_produtos_api(id):
 def get_filial_api(id):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/filial/empresa/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/branches-company/{id}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -63,6 +63,26 @@ def get_filial_api(id):
         lista_filial.append(i['cod_filial'])
 
     return lista_filial
+
+
+def get_orders_api(id):
+    token = login_api()
+
+    url = f'https://insight.ecluster.com.br/api/integration/orders-company/{id}/'
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        'dataType': 'json',
+        'Accept': 'application/json'
+    }
+
+    resultado = requests.get(url=url, headers=headers).json()
+
+    list_orders = []
+    for i in resultado:
+        list_orders.append(i['num_pedido'])
+
+    return list_orders
 
 
 def register_log(message):
