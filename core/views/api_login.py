@@ -10,7 +10,8 @@ def get_data_business():
 def login_api():
     business = get_data_business()
 
-    url = "https://insight.ecluster.com.br/api-token-auth"
+    #url = "https://insight.ecluster.com.br/api-token-auth"
+    url = "https://insight.ecluster.com.br/api/token/"
     user_data = {
         "username": business.username,
         "password": business.password
@@ -20,9 +21,10 @@ def login_api():
 
     if response.status_code == 200:
         response_data = response.json()
-        token_puro = response_data['token']
+        # token_puro = response_data['token']
+        token_puro = response_data['access']
 
-        token = "Token "
+        token = "Bearer "
         token += token_puro
         return token
     else:
