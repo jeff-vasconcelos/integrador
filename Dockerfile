@@ -3,10 +3,13 @@ FROM python:3.8
 ENV PYTHONHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
-COPY . /code/
+COPY . /code
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-EXPOSE 8000:8000
+
+EXPOSE 8000
+
 ENV ORACLE_HOME=/usr/lib/oracle/11.2/client64
 ENV PATH=$PATH:$ORACLE_HOME/bin
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
@@ -21,3 +24,5 @@ RUN apt-get update \
     && ln -snf /etc/oracle /opt/oracle/network/admin \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD root /
+
+CMD ["python", "manage.py", "runserver", "--noreload", "0.0.0.0:8000"]

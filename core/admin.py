@@ -1,6 +1,6 @@
 from django.contrib import admin
-from core.models import *
+from core.models import Configuracao
 
 
 admin.site.register(Configuracao)
-admin.site.register(Registro)
+

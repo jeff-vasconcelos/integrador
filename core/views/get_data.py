@@ -1,7 +1,6 @@
 import requests
 import datetime
 from core.views.api_login import login_api
-from core.models import Registro
 from django.http import HttpResponse
 
 
@@ -82,7 +81,17 @@ def get_orders_api(id):
     for i in resultado:
         list_orders.append(i['num_pedido'])
 
-    return list_orders
+    result = remove_repetidos(list_orders)
+
+    return result
+
+def remove_repetidos(lista):
+    l = []
+    for i in lista:
+        if i not in l:
+            l.append(i)
+    l.sort()
+    return l
 
 
 def register_log(message):
@@ -93,6 +102,4 @@ def register_log(message):
     f.write(message_date)
     f.write('\n')
     f.close()
-    
-    #log_register = Registro.objects.create(message=message)
-    #log_register.save()
+
