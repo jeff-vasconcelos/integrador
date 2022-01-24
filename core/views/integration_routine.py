@@ -94,9 +94,12 @@ def run_pedidos(dt_inicio, dt_fim, integration=''):
         send_data_tasks(url, token, lista_pedidos)
 
         # REMOVENDO PEDIDOS APAGADOS DO ERP
-        list_orders_duplicate, id_company = process_order_duplicate(df_pedidos)
+        df_pedidos_new = queryset_oracle(select_oracle=select_sql)
+        list_orders_duplicate, id_company = process_order_duplicate(df_pedidos_new)
         url_duplicates = f"https://insight.ecluster.com.br/api/integration/orders-company/delete/{id_company}/"
-        send_data_tasks(url_duplicates, token, list_orders_duplicate)
+        if len(list_orders_duplicate) != 0:
+            send_data_tasks(url_duplicates, token, list_orders_duplicate)
+
 
 
 def run_entradas(dt_inicio, dt_fim, integration=''):

@@ -26,6 +26,6 @@ def start():
 
 
     if business.enable_tasks:
-        #scheduler.add_job(run_tasks, 'interval', seconds=30)
-        scheduler.add_job(run_tasks, 'interval', seconds=2400)
+        # scheduler.add_job(run_tasks, 'interval', seconds=900)
+        scheduler.add_job(run_tasks, 'interval', seconds=3600)
     scheduler.start()
