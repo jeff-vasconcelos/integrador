@@ -4,7 +4,7 @@ from core.views.api_login import login_api
 from django.http import HttpResponse
 
 
-def get_fornecedores_api(id):
+def get_providers_api(id):
     token = login_api()
 
     url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id}/'
@@ -15,16 +15,16 @@ def get_fornecedores_api(id):
         'Accept': 'application/json'
     }
 
-    resultado = requests.get(url=url, headers=headers).json()
+    results = requests.get(url=url, headers=headers).json()
 
-    lista_fornecedores = []
-    for i in resultado:
-        lista_fornecedores.append(i['cod_fornecedor'])
+    list_providers = []
+    for i in results:
+        list_providers.append(i['cod_fornecedor'])
 
-    return lista_fornecedores
+    return list_providers
 
 
-def get_produtos_api(id):
+def get_products_api(id):
     token = login_api()
 
     url = f'https://insight.ecluster.com.br/api/integration/products-company/{id}/'
@@ -35,16 +35,16 @@ def get_produtos_api(id):
         'Accept': 'application/json'
     }
 
-    resultado = requests.get(url=url, headers=headers).json()
+    results = requests.get(url=url, headers=headers).json()
 
-    lista_produtos = []
-    for i in resultado:
-        lista_produtos.append(i['cod_produto'])
+    list_products = []
+    for i in results:
+        list_products.append(i['cod_produto'])
 
-    return lista_produtos
+    return list_products
 
 
-def get_filial_api(id):
+def get_branches_api(id):
     token = login_api()
 
     url = f'https://insight.ecluster.com.br/api/integration/branches-company/{id}/'
@@ -55,13 +55,13 @@ def get_filial_api(id):
         'Accept': 'application/json'
     }
 
-    resultado = requests.get(url=url, headers=headers).json()
+    results = requests.get(url=url, headers=headers).json()
 
-    lista_filial = []
-    for i in resultado:
-        lista_filial.append(i['cod_filial'])
+    list_branches = []
+    for i in results:
+        list_branches.append(i['cod_filial'])
 
-    return lista_filial
+    return list_branches
 
 
 def get_orders_api(id):
@@ -75,17 +75,17 @@ def get_orders_api(id):
         'Accept': 'application/json'
     }
 
-    resultado = requests.get(url=url, headers=headers).json()
+    results = requests.get(url=url, headers=headers).json()
 
     list_orders = []
-    for i in resultado:
+    for i in results:
         list_orders.append(i['num_pedido'])
 
-    result = remove_repetidos(list_orders)
+    result = remove_repete(list_orders)
 
     return result
 
-def remove_repetidos(lista):
+def remove_repete(lista):
     l = []
     for i in lista:
         if i not in l:

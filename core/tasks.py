@@ -1,144 +1,139 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from core.views.integration_routine import *
+from core.views.get_data import register_log
+from core.views.tasks_integration import (run_providers_task, run_products_task, run_histories_task, run_sales_task,
+                                          run_orders_task, run_entries_task, run_stocks_task, run_orders_duplicate_task)
 
 
-#@shared_task
-def task_fornecedores():
+# @shared_task
+def task_provider():
     try:
         msg = "Executando tarefa: Fornecedores..."
         msg2 = "Fornecedores - Concluído!"
         register_log(msg)
 
-        run_fornecedores(integration=False)
+        run_providers_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Fornecedor - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Fornecedor - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_produtos():
+# @shared_task
+def task_product():
     try:
         msg = 'Executando tarefa: Produtos...'
         msg2 = 'Produtos - Concluído!'
         register_log(msg)
 
-        run_produtos(integration=False)
+        run_products_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Produto - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Produto - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_historico():
+# @shared_task
+def task_history():
     try:
         msg = 'Executando tarefa: Historico...'
         msg2 = 'Historico - Concluído!'
 
-        end_date = datetime.date.today()
-        start_date = end_date - datetime.timedelta(days=1)
-
-        start = start_date.strftime("%Y/%m/%d")
-        end = end_date.strftime("%Y/%m/%d")
-
         register_log(msg)
 
-        run_historico(dt_inicio=start, dt_fim=end, integration=False)
+        run_histories_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Histórico - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Histórico - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_vendas():
+# @shared_task
+def task_sale():
     try:
         msg = 'Executando tarefa: Vendas...'
         msg2 = 'Vendas - Concluído!'
 
-        end_date = datetime.date.today()
-        start_date = end_date - datetime.timedelta(days=1)
-
-        start = start_date.strftime("%Y/%m/%d")
-        end = end_date.strftime("%Y/%m/%d")
-
         register_log(msg)
 
-        run_vendas(dt_inicio=start, dt_fim=end, integration=False)
+        run_sales_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Vendas - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Vendas - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_pedidos():
+# @shared_task
+def task_order():
     try:
         msg = 'Executando tarefa: Pedidos...'
         msg2 = 'Pedidos - Concluído!'
 
-        end_date = datetime.date.today()
-        start_date = end_date - datetime.timedelta(days=90)
-
-        start = start_date.strftime("%Y/%m/%d")
-        end = end_date.strftime("%Y/%m/%d")
-
         register_log(msg)
 
-        run_pedidos(dt_inicio=start, dt_fim=end, integration=False)
+        run_orders_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Pedidos - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Pedidos - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_entradas():
+# @shared_task
+def task_orders_duplicate():
+    try:
+        msg = 'Executando tarefa: Pedidos...'
+        msg2 = 'Pedidos - Concluído!'
+
+        register_log(msg)
+
+        run_orders_duplicate_task()
+
+        register_log(msg2)
+
+    except ValueError as err:
+        error = f"(Task) Pedidos - {str(err)}"
+        register_log(error)
+
+
+# @shared_task
+def task_entry():
     try:
         msg = 'Executando tarefa: Entradas...'
         msg2 = 'Entradas - Concluído!'
 
-        end_date = datetime.date.today()
-        start_date = end_date - datetime.timedelta(days=1)
-
-        start = start_date.strftime("%Y/%m/%d")
-        end = end_date.strftime("%Y/%m/%d")
-
         register_log(msg)
 
-        run_entradas(dt_inicio=start, dt_fim=end, integration=False)
+        run_entries_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Entradas - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Entradas - {str(err)}"
+        register_log(error)
 
 
-#@shared_task
-def task_estoque():
+# @shared_task
+def task_stock():
     try:
         msg = 'Executando tarefa: Estoque...'
         msg2 = 'Estoque - Concluído!'
 
         register_log(msg)
 
-        run_estoque(integration=False)
+        run_stocks_task()
 
         register_log(msg2)
 
     except ValueError as err:
-        erro = f"(Task) Estoque - {str(err)}"
-        register_log(erro)
+        error = f"(Task) Estoque - {str(err)}"
+        register_log(error)

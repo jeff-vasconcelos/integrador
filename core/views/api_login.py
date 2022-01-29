@@ -1,20 +1,20 @@
 import requests
-from core.models import Configuracao
+from core.models.configuration import Configuration
 
 
-def get_data_business():
-    qs = Configuracao.objects.get(id=1)
+def get_data_company():
+    qs = Configuration.objects.get(id=1)
     return qs
 
 
 def login_api():
-    business = get_data_business()
+    company = get_data_company()
 
     #url = "https://insight.ecluster.com.br/api-token-auth"
     url = "https://insight.ecluster.com.br/api/token/"
     user_data = {
-        "username": business.username,
-        "password": business.password
+        "username": company.username,
+        "password": company.password
     }
 
     response = requests.post(url=url, json=user_data)
@@ -28,4 +28,4 @@ def login_api():
         token += token_puro
         return token
     else:
-        raise ValueError('Erro: Não foi possivel realizar login no servidor')
+        raise ValueError('Erro: function(login) Não foi possivel realizar login no servidor')

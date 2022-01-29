@@ -36,8 +36,9 @@ def send_data(url, token, dados):
     if response.status_code == 200:
         for i in dados:
             data = json.dumps(i)
+
             response = requests.post(url=url, headers=headers, data=data)
 
         return response.status_code
     else:
-        raise ValueError('Erro: Não foi possivel conectar ao servidor')
+        raise ValueError('Erro: function(send_data) - Não foi possivel conectar ao servidor')

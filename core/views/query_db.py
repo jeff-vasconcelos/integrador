@@ -12,8 +12,8 @@ def conn_db():
     # business = get_data_business()
     #con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
     con = cx_Oracle.connect(
-        user='ESTRELA',
-        password='star895thor',
+        user='BRASILMED',
+        password='BR4S1LM3D1',
         dsn='PROD'
     )
 
