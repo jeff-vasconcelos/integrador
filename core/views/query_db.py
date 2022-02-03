@@ -2,15 +2,15 @@ import cx_Oracle
 import os
 import pandas as pd
 from core.views.get_data import register_log
-from core.views.api_login import get_data_business
+from core.views.api_login import get_data_company
 
 
 def conn_db():
     """
     Função responsável por conectar ao TNS do DB
     """
-    # business = get_data_business()
-    #con = cx_Oracle.connect(user=business.user_db, password=business.password_db, dsn=business.service_db)
+    # company = get_data_company()
+    #con = cx_Oracle.connect(user=company.user_db, password=company.password_db, dsn=company.service_db)
     con = cx_Oracle.connect(
         user='BRASILMED',
         password='BR4S1LM3D1',

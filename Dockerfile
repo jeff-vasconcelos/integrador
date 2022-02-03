@@ -25,4 +25,4 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD root /
 
-CMD ["python", "manage.py", "runserver", "--noreload", "0.0.0.0:8000"]
+#CMD ["python", "manage.py", "runserver", "--noreload", "0.0.0.0:8000"]

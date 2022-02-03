@@ -2,44 +2,52 @@ import requests
 import datetime
 from core.views.api_login import login_api
 from django.http import HttpResponse
+from core.models.providers import Provider
+from core.models.products import Product
 
 
 def get_providers_api(id):
-    token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id}/'
-    headers = {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-        'dataType': 'json',
-        'Accept': 'application/json'
-    }
+    results = Provider.objects.get(id=id)
 
-    results = requests.get(url=url, headers=headers).json()
+    # token = login_api()
+    #
+    # url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id}/'
+    # headers = {
+    #     'Authorization': token,
+    #     'Content-Type': 'application/json',
+    #     'dataType': 'json',
+    #     'Accept': 'application/json'
+    # }
+    #
+    # results = requests.get(url=url, headers=headers).json()
 
     list_providers = []
     for i in results:
-        list_providers.append(i['cod_fornecedor'])
+        list_providers.append(i.code_provider)
 
     return list_providers
 
 
 def get_products_api(id):
-    token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/products-company/{id}/'
-    headers = {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-        'dataType': 'json',
-        'Accept': 'application/json'
-    }
+    results = Product.objects.get(id=id)
 
-    results = requests.get(url=url, headers=headers).json()
+    # token = login_api()
+    #
+    # url = f'https://insight.ecluster.com.br/api/integration/products-company/{id}/'
+    # headers = {
+    #     'Authorization': token,
+    #     'Content-Type': 'application/json',
+    #     'dataType': 'json',
+    #     'Accept': 'application/json'
+    # }
+    #
+    # results = requests.get(url=url, headers=headers).json()
 
     list_products = []
     for i in results:
-        list_products.append(i['cod_produto'])
+        list_products.append(i.code_products)
 
     return list_products
 

@@ -1,29 +1,35 @@
 from core.models.providers import Provider
 
 
-def writer_provider(list_providers, id_company):
-    for provider in list_providers:
+def writer_provider(dataframe_providers):
+    # iterando dataframe
+    for index, row in dataframe_providers.iterrows():
 
-        qs_provider = Provider.objects.filter(
-            code_provider=provider.code_provider
-        ).first()
+        # buscando dados existentes
+        qs_provider = Provider.objects.filter(code_provider=str(row['cod_fornecedor'])).first()
 
+        # gravando novos dados
         if not qs_provider:
+            print("salvou: ", int(row['cod_fornecedor']))
+
             qs = Provider.objects.create(
-                code_provider=provider.code_provider,
-                description_provider=provider.description_provider,
-                cnpj=provider.cnpj,
-                state_registration=provider.state_registration,
-                company=id_company
+                code_provider=int(row['cod_fornecedor']),
+                description_provider=str(row['desc_fornecedor']),
+                cnpj=str(row['cnpj']),
+                state_registration=str(row['iestadual']),
+                company=int(row['empresa'])
             )
 
             qs.save()
 
+        #  atualizando dados existentes
         if qs_provider:
 
-            if qs_provider.description_provider != provider.description_provider or qs_provider.cnpj != provider.cnpj:
-                qs_provider.description_provider = provider.description_provider
-                qs_provider.cnpj = provider.cnpj
-                qs_provider.sent=False
+            if qs_provider.description_provider != str(row['desc_fornecedor']) or qs_provider.cnpj != str(row['cnpj']):
+                print("atualizou: ", int(row['cod_fornecedor']))
+
+                qs_provider.description_provider = str(row['desc_fornecedor'])
+                qs_provider.cnpj = str(row['cnpj'])
+                qs_provider.sent = False
 
                 qs_provider.save()

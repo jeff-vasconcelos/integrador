@@ -13,8 +13,8 @@ def login_api():
     #url = "https://insight.ecluster.com.br/api-token-auth"
     url = "https://insight.ecluster.com.br/api/token/"
     user_data = {
-        "username": company.username,
-        "password": company.password
+        "username": "welleson",
+        "password": "W180425l"
     }
 
     response = requests.post(url=url, json=user_data)

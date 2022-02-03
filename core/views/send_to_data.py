@@ -1,7 +1,5 @@
-from os import error
 import requests
 import json
-import time
 from core.views.get_data import register_log
 
 
@@ -30,15 +28,11 @@ def send_data(url, token, dados):
         'Accept': 'application/json'
     }
 
-    url_valid_test = 'https://insight.ecluster.com.br/api/integration/'
-    response = requests.get(url=url_valid_test, headers=headers)
-
-    if response.status_code == 200:
+    try:
         for i in dados:
             data = json.dumps(i)
+            requests.post(url=url, headers=headers, data=data)
 
-            response = requests.post(url=url, headers=headers, data=data)
-
-        return response.status_code
-    else:
-        raise ValueError('Erro: function(send_data) - Não foi possivel conectar ao servidor')
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        register_log('Erro: function(send_data) - Não foi possivel conectar ao servidor')
+        raise SystemExit(e)

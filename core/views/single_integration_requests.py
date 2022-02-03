@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 from core.views.get_data import register_log
@@ -5,6 +6,7 @@ from core.views.single_integration import (run_providers_single, run_products_si
                                            run_sales_single, run_orders_single, run_entries_single, run_stocks_single)
 
 
+@login_required()
 def home_index(request, template_name='home.html'):
     return render(request, template_name)
 

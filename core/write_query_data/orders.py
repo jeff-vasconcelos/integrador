@@ -1,33 +1,37 @@
 from core.models.orders import OrdersBuy
 
 
-def writer_order(list_histories, id_company):
-    for order in list_histories:
+def writer_order(dataframe_orders):
+    # iterando dataframe
+    for index, row in dataframe_orders.iterrows():
 
+        # buscando dados existentes
         qs_order = OrdersBuy.objects.filter(
-            code_product=order.code_product,
-            code_branch=order.code_product,
-            code_provider=order.code_provider,
-            order_number=order.order_number
+            code_product=int(row['cod_produto']),
+            code_branch=int(row['cod_filial']),
+            code_provider=int(row['cod_fornecedor']),
+            order_number=int(row['num_pedido'])
         ).first()
 
+        #  atualizando dados existentes
         if qs_order:
-            if qs_order.quantity_over != order.quantity_over or qs_order.date_order != order.date_order:
-                qs_order.quantity_over = order.quantity_over
-                qs_order.date_order = order.date_order
+            if qs_order.quantity_over != float(row['saldo']) or qs_order.date_order != row['data']:
+                qs_order.quantity_over = float(row['saldo'])
+                qs_order.date_order = row['data']
                 qs_order.sent=False
 
                 qs_order.save()
 
+        # gravando novos dados
         else:
             qs = OrdersBuy.objects.create(
-                code_product=order.code_product,
-                code_branch=order.code_product,
-                code_provider=order.code_provider,
-                company=id_company,
-                order_number=order.order_number,
-                quantity_over=order.quantity_over,
-                date_order=order.date_order
+                code_product=int(row['cod_produto']),
+                code_branch=int(row['cod_filial']),
+                code_provider=int(row['cod_fornecedor']),
+                company=int(row['empresa']),
+                order_number=int(row['num_pedido']),
+                quantity_over=float(row['saldo']),
+                date_order=row['data']
             )
 
             qs.save()

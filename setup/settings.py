@@ -12,9 +12,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
     'api',
-    # 'django_celery_beat',
+    'core',
+
+    # 'core.apps.CoreConfig',
+    'django_celery_beat',
+
     'rest_framework',
     'rest_framework.authtoken',
 ]

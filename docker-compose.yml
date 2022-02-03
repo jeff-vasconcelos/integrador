@@ -5,7 +5,7 @@ services:
     build:
       context: .
     container_name: django
-    image: clusterdesenvolvimento/insight:Estrela
+    image: clusterdesenvolvimento/internal-insight:Brasil
     command: sh -c "python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
     tty: true
@@ -17,21 +17,21 @@ services:
       - .:/code/
     restart: always
 
-#  celery:
-#    build:
-#      context: .
-#    command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-#    container_name: celery
-#    env_file:
-#      - .env
-#    volumes:
-#      - .:/code/
-#    depends_on:
-#      - redis
-#      - django
-#    restart: always
-#
-#  redis:
-#    container_name: redis
-#    image: "redis:alpine"
-#    restart: always
+  celery:
+    build:
+      context: .
+    command: sh -c "celery -A setup worker -l INFO & celery -A setup beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    container_name: celery
+    env_file:
+      - .env
+    volumes:
+      - .:/code/
+    depends_on:
+      - redis
+      - django
+    restart: always
+
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    restart: always

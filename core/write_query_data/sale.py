@@ -1,33 +1,36 @@
 from core.models.sales import SaleProduct
 
 
-def writer_sale(list_sales, id_company):
-    for sale in list_sales:
+def writer_sale(dataframe_sales):
+    # iterando dataframe
+    for index, row in dataframe_sales.iterrows():
 
+        # buscando dados existentes
         qs_sale = SaleProduct.objects.filter(
-            code_product=sale.code_product,
-            code_branch=sale.code_product,
-            code_provider=sale.code_provider,
-            quantity_sales=sale.quantity_sales,
-            price_unit=sale.price_unit,
-            financial_cost=sale.financial_cost,
-            date_sale=sale.date_sale
+            code_product=int(row['cod_produto']),
+            code_branch=int(row['cod_filial']),
+            code_provider=int(row['cod_fornecedor']),
+            quantity_sales=float(row['qt_venda']),
+            price_unit=float(row['preco_unit']),
+            financial_cost=float(row['custo_fin']),
+            date_sale=row['data']
         ).first()
 
+        # gravando novos dados
         if not qs_sale:
             qs = SaleProduct.objects.create(
-                code_product=sale.code_product,
-                code_branch=sale.code_product,
-                code_provider=sale.code_provider,
-                company=id_company,
-                quantity_sales=sale.quantity_sales,
-                price_unit=sale.price_unit,
-                financial_cost=sale.financial_cost,
-                client=sale.client,
-                note_number=sale.note_number,
-                rca=sale.rca,
-                supervisor=sale.supervisor,
-                date_sale=sale.date_sale
+                code_product=int(row['cod_produto']),
+                code_branch=int(row['cod_filial']),
+                code_provider=int(row['cod_fornecedor']),
+                company=int(row['empresa']),
+                quantity_sales=float(row['qt_venda']),
+                price_unit=float(row['preco_unit']),
+                financial_cost=float(row['custo_fin']),
+                client=str(row['cliente']),
+                note_number=int(row['num_nota']),
+                rca=str(row['rca']),
+                supervisor=str(row['supervisor']),
+                date_sale=row['data']
             )
 
             qs.save()
