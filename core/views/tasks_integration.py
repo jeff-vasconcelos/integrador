@@ -81,7 +81,7 @@ def run_orders_task():
     token = login_api()
 
     today = datetime.date.today()
-    yesterday = datetime.date.today() - datetime.timedelta(days=30)
+    yesterday = datetime.date.today() - datetime.timedelta(days=90)
 
     select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao BETWEEN TO_DATE('{yesterday}','YYYY/MM/DD') AND TO_DATE('{today}','YYYY/MM/DD')"
     df_orders = queryset_oracle(select_oracle=select_sql)
@@ -98,7 +98,7 @@ def run_orders_duplicate_task():
     token = login_api()
 
     today = datetime.date.today()
-    yesterday = datetime.date.today() - datetime.timedelta(days=30)
+    yesterday = datetime.date.today() - datetime.timedelta(days=90)
 
     select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao BETWEEN TO_DATE('{yesterday}','YYYY/MM/DD') AND TO_DATE('{today}','YYYY/MM/DD')"
     df_orders_duplicate = queryset_oracle(select_oracle=select_sql)
@@ -142,7 +142,7 @@ def run_stocks_task():
     # df_stocks = pd.DataFrame(StockProduct.objects.filter(sent=False).values())
 
     list_stocks = process_stocks(df_stocks, False)
-    print(list_stocks)
+
     url = "https://insight.ecluster.com.br/api/stock-current/"
 
-    send_data_integration(url, token, list_stocks)
+    send_data_tasks(url, token, list_stocks)

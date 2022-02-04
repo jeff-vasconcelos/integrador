@@ -1,6 +1,6 @@
 from django.urls import path
 from core.views.single_integration_requests import (home_index, request_providers, request_products, request_histories,
-                                                    request_sales, request_orders, request_entries, request_stock)
+                                                    request_sales, request_orders, request_entries, request_stock, request_orders_duplicate_remove)
 
 urlpatterns = [
     path('', home_index, name='home_index'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('request-pedidos/', request_orders, name='request_orders'),
     path('request-entradas/', request_entries, name='request_entries'),
     path('request-estoque/', request_stock, name='request_stock'),
+    path('request-remover-pedido/', request_orders_duplicate_remove, name='request_remover_pedido'),
 ]

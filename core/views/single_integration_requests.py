@@ -4,6 +4,7 @@ from django.shortcuts import render
 from core.views.get_data import register_log
 from core.views.single_integration import (run_providers_single, run_products_single, run_histories_single,
                                            run_sales_single, run_orders_single, run_entries_single, run_stocks_single)
+from core.views.tasks_integration import run_orders_duplicate_task
 
 
 @login_required()
@@ -92,6 +93,23 @@ def request_orders(request):
         try:
             run_orders_single(date_start=start, date_end=end)
             msg = "Pedidos - Sucesso ao enviar pedidos!"
+            register_log(msg)
+            return JsonResponse({'data': msg})
+
+        except ValueError as err:
+            error = f"Pedidos - {str(err)}"
+            register_log(error)
+            return JsonResponse({'data': error})
+
+    return JsonResponse({})
+
+
+def request_orders_duplicate_remove(request):
+    if request.is_ajax():
+
+        try:
+            run_orders_duplicate_task()
+            msg = "Pedidos - Sucesso ao remover pedidos!"
             register_log(msg)
             return JsonResponse({'data': msg})
 
