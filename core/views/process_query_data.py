@@ -4,13 +4,10 @@ import pandas as pd
 from core.views.api_login import get_data_company
 from core.views.get_data import get_providers_api, get_products_api, get_branches_api, get_orders_api, get_stock_api
 
-from core.write_query_data.sale import writer_sale
 
-
-def process_providers(df_providers, task=''):
+def process_providers(df_providers):
     """  """
     if not df_providers.empty:
-
         df_providers.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
         company = get_data_company()
         df_providers['empresa'] = int(company.company_id)
@@ -18,19 +15,16 @@ def process_providers(df_providers, task=''):
         list_providers = get_providers_api(company.company_id)
         df_providers = df_providers.query("cod_fornecedor != @list_providers")
 
-        if not task:
-            dict_fornecedor = df_providers.assign(
-                **df_providers.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+        dict_fornecedor = df_providers.assign(
+            **df_providers.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-            return dict_fornecedor
-
-        return df_providers
+        return dict_fornecedor
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_products(df_products, task=''):
+def process_products(df_products):
     if not df_products.empty:
 
         df_products.columns = ["cod_fornecedor", "cod_produto", "desc_produto", "cod_ncm", "cod_auxiliar", "marca",
@@ -46,20 +40,17 @@ def process_products(df_products, task=''):
         df_products = df_products.query("cod_fornecedor == @list_providers")
         df_products = df_products.query("cod_produto != @list_products")
 
-        if not task:
-            dict_products = df_products.assign(
-                **df_products.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-                "records")
+        dict_products = df_products.assign(
+            **df_products.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-            return dict_products
-
-        return df_products
+        return dict_products
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_histories(df_histories, task=''):
+def process_histories(df_histories):
     if not df_histories.empty:
 
         df_histories.columns = ["cod_produto", "data", "qt_estoque", "cod_filial", "cod_fornecedor"]
@@ -77,20 +68,18 @@ def process_histories(df_histories, task=''):
         df_histories = df_histories.query("cod_produto == @list_products")
         df_histories = df_histories.query("cod_filial == @list_branches")
 
-        if not task:
-            dict_histories = df_histories.assign(
-                **df_histories.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-                "records")
 
-            return dict_histories
+        dict_histories = df_histories.assign(
+            **df_histories.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-        return df_histories
+        return dict_histories
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_sales(df_sales, task=''):
+def process_sales(df_sales):
     if not df_sales.empty:
         df_sales.columns = ["data", "cod_produto", "qt_venda", "preco_unit", "cod_filial", "cliente", "num_nota",
                             "rca", "cod_fornecedor", "custo_fin", "supervisor"]
@@ -108,19 +97,16 @@ def process_sales(df_sales, task=''):
         df_sales = df_sales.query("cod_produto == @list_products")
         df_sales = df_sales.query("cod_filial == @list_branches")
 
-        if not task:
-            dict_sales = df_sales.assign(**df_sales.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-                "records")
+        dict_sales = df_sales.assign(**df_sales.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-            return dict_sales
-
-        return df_sales
+        return dict_sales
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_entries(df_entries, task=''):
+def process_entries(df_entries):
     if not df_entries.empty:
         df_entries.columns = ["cod_filial", "data", "vl_ult_entrada", "qt_ult_entrada", "cod_produto",
                               "cod_fornecedor"]
@@ -138,19 +124,17 @@ def process_entries(df_entries, task=''):
         df_entries = df_entries.query("cod_produto == @list_products")
         df_entries = df_entries.query("cod_filial == @list_branches")
 
-        if not task:
-            dict_entries = df_entries.assign(
-                **df_entries.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-            return dict_entries
+        dict_entries = df_entries.assign(
+            **df_entries.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-        return df_entries
+        return dict_entries
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_orders(df_orders, task=''):
+def process_orders(df_orders):
     if not df_orders.empty:
         df_orders.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
         df_orders['data'] = pd.to_datetime(df_orders['data'])
@@ -174,20 +158,16 @@ def process_orders(df_orders, task=''):
         #     "((cod_filial != @list_orders_branches and cod_produto != @list_orders_products) and (saldo != @list_orders_quantity_over and data != list_orders_date) and num_pedido != @list_orders)"
         # )
 
+        dict_orders = df_orders.assign(**df_orders.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            "records")
 
-        if not task:
-            dict_orders = df_orders.assign(**df_orders.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-                "records")
-
-            return dict_orders
-
-        return df_orders
+        return dict_orders
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_order_duplicate(df_orders, task=''):
+def process_order_duplicate(df_orders):
     if not df_orders.empty:
         df_orders.columns = ["cod_filial", "cod_produto", "saldo", "num_pedido", "data", "cod_fornecedor"]
         df_orders['data'] = pd.to_datetime(df_orders['data'])
@@ -197,23 +177,22 @@ def process_order_duplicate(df_orders, task=''):
         df_orders['empresa'] = company.company_id
 
         list_orders = get_orders_api(company.company_id, is_duplicated=True)
+        list_orders_dataframe = df_orders['num_pedido'].tolist()
 
-        df_orders_duplicate = df_orders.query("num_pedido != @list_orders")
+        list_remove = []
+        for x in list_orders:
+            if x not in list_orders_dataframe:
+                list_remove.append(
+                    {"num_pedido": x}
+                )
 
-        if not task:
-            dict_orders = df_orders_duplicate.assign(
-                **df_orders_duplicate.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
-                "records")
-
-            return dict_orders, company.company_id
-
-        return df_orders_duplicate
+        return list_remove, company.company_id
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
-def process_stocks(df_stock, task=''):
+def process_stocks(df_stock):
     if not df_stock.empty:
 
         df_stock.columns = ["cod_filial", "cod_produto", "qt_geral", "qt_indenizada", "qt_reservada",
@@ -236,21 +215,18 @@ def process_stocks(df_stock, task=''):
         df_stock = df_stock.query("cod_produto == @list_products")
         df_stock = df_stock.query("cod_filial == @list_branches")
 
-        if not task:
+        # list_stock_produto, list_stock_filial, list_stock_qt_geral, list_stock_qt_disponivel, list_stock_preco = get_stock_api(
+        #     company.company_id)
 
-            # list_stock_produto, list_stock_filial, list_stock_qt_geral, list_stock_qt_disponivel, list_stock_preco = get_stock_api(
-            #     company.company_id)
+        # df_stock = df_stock.query(
+        #     "(cod_filial != @list_stock_filial and cod_produto != @list_stock_produto) and (qt_geral != @list_stock_qt_geral and qt_disponivel != @list_stock_qt_disponivel)"
+        # )
 
-            # df_stock = df_stock.query(
-            #     "(cod_filial != @list_stock_filial and cod_produto != @list_stock_produto) and (qt_geral != @list_stock_qt_geral and qt_disponivel != @list_stock_qt_disponivel)"
-            # )
+        dict_stock = df_stock.assign(
+            **df_stock.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
-            dict_stock = df_stock.assign(
-                **df_stock.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
+        return dict_stock
 
-            return dict_stock
-
-        return df_stock
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
