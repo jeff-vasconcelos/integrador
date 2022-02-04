@@ -7,7 +7,7 @@ def writer_product(dataframe_products):
 
         # buscando dados existentes
         qs_product = Product.objects.filter(
-            code_product=int(row['ode_product'])
+            code_product=int(row['cod_produto'])
         ).first()
 
         # gravando novos dados

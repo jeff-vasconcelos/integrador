@@ -4,6 +4,7 @@ from core.models.sales import SaleProduct
 def writer_sale(dataframe_sales):
     # iterando dataframe
     for index, row in dataframe_sales.iterrows():
+        print("ENTRO NA FUNÇÃO")
 
         # buscando dados existentes
         qs_sale = SaleProduct.objects.filter(
@@ -18,6 +19,8 @@ def writer_sale(dataframe_sales):
 
         # gravando novos dados
         if not qs_sale:
+            print("SALVANDO VENDAS AGORA")
+            print(int(row['cod_produto']))
             qs = SaleProduct.objects.create(
                 code_product=int(row['cod_produto']),
                 code_branch=int(row['cod_filial']),

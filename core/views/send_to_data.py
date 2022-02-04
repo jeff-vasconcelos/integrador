@@ -34,5 +34,5 @@ def send_data(url, token, dados):
             requests.post(url=url, headers=headers, data=data)
 
     except requests.exceptions.RequestException as e:  # This is the correct syntax
-        register_log('Erro: function(send_data) - Não foi possivel conectar ao servidor')
+        register_log('Erro: function(send_data) - Nao foi possivel conectar ao servidor')
         raise SystemExit(e)

@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 from core.views.api_login import login_api
 from core.models.providers import Provider
@@ -8,64 +9,108 @@ from core.models.sales import SaleProduct
 from core.models.orders import OrdersBuy
 from core.models.entries import EntryProduct
 from core.models.stock import StockProduct
-from core.views.send_to_data import send_data_integration
+from core.views.query_db import queryset_oracle
+from core.views.send_to_data import send_data_tasks, send_data_integration
 from core.views.process_query_data import (process_providers, process_products, process_sales, process_histories,
                                            process_orders, process_entries, process_stocks, process_order_duplicate)
 
 
 def run_providers_task():
     token = login_api()
-    df_providers = pd.DataFrame(Provider.objects.filter(sent=False).values())
-    list_providers = process_providers(df_providers)
-    url = "http://127.0.0.1:7000/api/integration/providers/"
 
-    send_data_integration(url, token, list_providers)
+    select_sql = "SELECT pcfornec.codfornec, pcfornec.fornecedor, pcfornec.cgc CNPJ, pcfornec.ie INS_ESTADUAL FROM pcfornec WHERE pcfornec.revenda = 'S'"
+    df_providers = queryset_oracle(select_oracle=select_sql)
+
+    # df_providers = pd.DataFrame(Provider.objects.filter(sent=False).values())
+
+    list_providers = process_providers(df_providers)
+    url = "https://insight.ecluster.com.br/api/providers/"
+
+    send_data_tasks(url, token, list_providers)
 
 
 def run_products_task():
     token = login_api()
-    df_products = pd.DataFrame(Product.objects.filter(sent=False).values())
+
+    select_sql = "SELECT pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm, pcprodut.codauxiliar ean,pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq, pcprodut.codfab,pcprodut.codepto,pcdepto.descricao departamento,pcprodut.codsec, pcsecao.descricao secao,pcprincipativo.descricao principio_ativo FROM pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo, pcfornec WHERE pcprodut.codmarca = pcmarca.codmarca(+) AND pcprodut.codepto = pcdepto.codepto(+) AND pcprodut.codsec = pcsecao.codsec(+) AND pcprodut.codfornec = pcfornec.codfornec(+) AND pcprodut.codprincipativo = pcprincipativo.codprincipativo(+) AND pcprodut.obs2 <> 'FL' and pcprodut.dtexclusao is null"
+    df_products = queryset_oracle(select_oracle=select_sql)
+
+    # df_products = pd.DataFrame(Product.objects.filter(sent=False).values())
     list_products = process_products(df_products)
 
-    url = "http://127.0.0.1:7000/api/integration/products/"
-    send_data_integration(url, token, list_products)
+    url = "https://insight.ecluster.com.br/api/products/"
+    send_data_tasks(url, token, list_products)
 
+from core.write_query_data.history import writer_history
 
 def run_histories_task():
     token = login_api()
-    df_histories = pd.DataFrame(HistoryProduct.objects.filter(sent=False).values())
-    list_histories = process_histories(df_histories, False)
-    url = "http://127.0.0.1:7000/api/integration/stock-histories/"
 
-    send_data_integration(url, token, list_histories)
+    # today = datetime.date.today()
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
+    select_sql = f"SELECT pchistest.codprod, pchistest.data, pchistest.qtestger, pchistest.codfilial, pcprodut.codfornec FROM pchistest, pcprodut WHERE pchistest.codprod = pcprodut.codprod AND pchistest.data = TO_DATE('{yesterday}','YYYY/MM/DD') ORDER BY pchistest.codfilial, pchistest.codprod, pchistest.data"
+    df_histories = queryset_oracle(select_oracle=select_sql)
+
+    # df_histories = pd.DataFrame(HistoryProduct.objects.filter(sent=False).values())
+
+    list_histories = process_histories(df_histories, False)
+    url = "https://insight.ecluster.com.br/api/stock-histories/"
+
+    send_data_tasks(url, token, list_histories)
 
 
 def run_sales_task():
     token = login_api()
-    df_sales = pd.DataFrame(SaleProduct.objects.filter(sent=False).values())
-    list_sales = process_sales(df_sales, False)
-    url = "http://127.0.0.1:7000/api/integration/product-sales/"
 
-    send_data_integration(url, token, list_sales)
+    today = datetime.date.today()
+    # yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
+    select_sql = f"SELECT pcmov.dtmov, pcprodut.codprod, pcmov.qt, pcmov.punit, pcmov.codfilial, pcclient.cliente, pcmov.numnota, pcusuari.nome RCA, pcmov.codfornec, pcmov.custofin, pcsuperv.nome SUPERVISOR FROM pcmov,pcprodut, pcclient, pcusuari, pcsuperv WHERE pcmov.dtmov = TO_DATE('{today}','YYYY/MM/DD') AND pcmov.codprod = pcprodut.codprod AND pcmov.codusur = pcusuari.codusur AND pcusuari.codsupervisor = pcsuperv.codsupervisor AND pcmov.codcli = pcclient.codcli AND pcmov.codfilial IN (1) AND pcmov.codoper = 'S'"
+    df_sales = queryset_oracle(select_oracle=select_sql)
+
+    # df_sales = pd.DataFrame(SaleProduct.objects.filter(sent=False).values())
+
+    list_sales = process_sales(df_sales, False)
+    url = "https://insight.ecluster.com.br/api/product-sales/"
+
+    send_data_tasks(url, token, list_sales)
 
 
 def run_orders_task():
     token = login_api()
-    df_orders = pd.DataFrame(OrdersBuy.objects.filter(sent=False).values())
-    list_orders = process_orders(df_orders, False)
-    url = "http://127.0.0.1:7000/api/integration/buy-orders/"
 
-    send_data_integration(url, token, list_orders)
+    today = datetime.date.today()
+    yesterday = datetime.date.today() - datetime.timedelta(days=30)
+
+    select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao BETWEEN TO_DATE('{yesterday}','YYYY/MM/DD') AND TO_DATE('{today}','YYYY/MM/DD')"
+    df_orders = queryset_oracle(select_oracle=select_sql)
+
+    # df_orders = pd.DataFrame(OrdersBuy.objects.filter(sent=False).values())
+
+    list_orders = process_orders(df_orders, False)
+    url = "https://insight.ecluster.com.br/api/buy-orders/"
+
+    send_data_tasks(url, token, list_orders)
 
 
 def run_orders_duplicate_task():
     token = login_api()
-    df_orders_duplicate = pd.DataFrame(OrdersBuy.objects.filter(sent=False).values())
-    list_orders_duplicate, id_company = process_order_duplicate(df_orders_duplicate)
-    url_duplicates = f"http://127.0.0.1:7000/api/integration/orders-company/delete/{id_company}/"
+
+    today = datetime.date.today()
+    yesterday = datetime.date.today() - datetime.timedelta(days=30)
+
+    select_sql = f"SELECT pcpedido.codfilial, pcitem.codprod, pcitem.qtpedida - pcitem.qtentregue AS SALDO, pcitem.numped, pcpedido.dtemissao, pcprodut.codfornec FROM pcprodut, pcitem, pcpedido WHERE pcitem.codprod = pcprodut.codprod AND pcitem.numped = pcpedido.numped AND pcpedido.codfilial IN (1) AND pcpedido.dtemissao BETWEEN TO_DATE('{yesterday}','YYYY/MM/DD') AND TO_DATE('{today}','YYYY/MM/DD')"
+    df_orders_duplicate = queryset_oracle(select_oracle=select_sql)
+
+    # df_orders_duplicate = pd.DataFrame(OrdersBuy.objects.filter(sent=False).values())
+
+    list_orders_duplicate, id_company = process_order_duplicate(df_orders_duplicate, task=False)
+
+    url_duplicates = f"https://insight.ecluster.com.br/api/orders-company/delete/{id_company}/"
 
     if len(list_orders_duplicate) != 0:
-        send_data_integration(url_duplicates, token, list_orders_duplicate)
+        send_data_tasks(url_duplicates, token, list_orders_duplicate)
 
         remove_duplicate = OrdersBuy.objects.filter(order_number__in=list_orders_duplicate)
         remove_duplicate.delete()
@@ -73,17 +118,31 @@ def run_orders_duplicate_task():
 
 def run_entries_task():
     token = login_api()
-    df_entries = pd.DataFrame(EntryProduct.objects.filter(sent=False).values())
-    list_entries = process_entries(df_entries, False)
-    url = "http://127.0.0.1:7000/api/integration/entry-products/"
 
-    send_data_integration(url, token, list_entries)
+    today = datetime.date.today()
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
+    select_sql = f"SELECT pcest.codfilial, pcest.dtultent, pcest.valorultent, pcest.qtultent QTD_ULT_ENTRADA, pcprodut.codprod, pcprodut.codfornec FROM pcest, pcprodut WHERE pcest.dtultent = TO_DATE('{today}','YYYY/MM/DD') AND pcprodut.codprod = pcest.codprod AND pcest.codfilial IN (1)"
+    df_entries = queryset_oracle(select_oracle=select_sql)
+
+    # df_entries = pd.DataFrame(EntryProduct.objects.filter(sent=False).values())
+
+    list_entries = process_entries(df_entries, False)
+    url = "https://insight.ecluster.com.br/api/entry-products/"
+
+    send_data_tasks(url, token, list_entries)
 
 
 def run_stocks_task():
     token = login_api()
-    df_stocks = pd.DataFrame(StockProduct.objects.filter(sent=False).values())
+
+    select_sql = f"SELECT pcest.codfilial, pcest.codprod, pcest.qtestger, pcest.qtindeniz, pcest.qtreserv, pcest.qtpendente, pcest.qtbloqueada, pcest.qtestger - ((pcest.qtindeniz + pcest.qtreserv + pcest.qtpendente + pcest.qtbloqueada) - pcest.qtindeniz) AS Qtd_Disp, pcest.custoultent, pcfornec.codfornec, pctabpr.pvenda FROM pcprodut, pcest, pcfornec, pctabpr WHERE pcest.codprod = pcprodut.codprod AND pcprodut.codprod = pctabpr.codprod AND pcprodut.codfornec = pcfornec.codfornec AND pcest.codfilial in (1) AND pctabpr.numregiao = 1 AND pcprodut.obs2 <> 'FL' AND pcprodut.dtexclusao is null"
+    df_stocks = queryset_oracle(select_oracle=select_sql)
+
+    # df_stocks = pd.DataFrame(StockProduct.objects.filter(sent=False).values())
+
     list_stocks = process_stocks(df_stocks, False)
-    url = "http://127.0.0.1:7000/api/integration/stock-current/"
+    print(list_stocks)
+    url = "https://insight.ecluster.com.br/api/stock-current/"
 
     send_data_integration(url, token, list_stocks)

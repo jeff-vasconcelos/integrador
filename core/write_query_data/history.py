@@ -2,8 +2,10 @@ from core.models.histories import HistoryProduct
 
 
 def writer_history(dataframe_histories):
+    print("PASSOU AQUI")
     # iterando dataframe
     for index, row in dataframe_histories.iterrows():
+        print(int(row['cod_produto']))
 
         # buscando dados existentes
         qs_history = HistoryProduct.objects.filter(

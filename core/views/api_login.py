@@ -10,14 +10,21 @@ def get_data_company():
 def login_api():
     company = get_data_company()
 
-    #url = "https://insight.ecluster.com.br/api-token-auth"
     url = "https://insight.ecluster.com.br/api/token/"
+    # url = "http://127.0.0.1:7000/api/token/"
+
     user_data = {
-        "username": "welleson",
-        "password": "W180425l"
+        "username": company.username,
+        "password": company.password
     }
 
-    response = requests.post(url=url, json=user_data)
+
+    try:
+        response = requests.post(url=url, json=user_data)
+
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        raise SystemExit(e)
+
 
     if response.status_code == 200:
         response_data = response.json()
@@ -28,4 +35,4 @@ def login_api():
         token += token_puro
         return token
     else:
-        raise ValueError('Erro: function(login) Não foi possivel realizar login no servidor')
+        raise ValueError('Erro: function(login) Nao foi possivel realizar login no servidor')

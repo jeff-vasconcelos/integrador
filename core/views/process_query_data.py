@@ -2,7 +2,9 @@ import datetime
 import pandas as pd
 
 from core.views.api_login import get_data_company
-from core.views.get_data import get_providers_api, get_products_api, get_branches_api, get_orders_api
+from core.views.get_data import get_providers_api, get_products_api, get_branches_api, get_orders_api, get_stock_api
+
+from core.write_query_data.sale import writer_sale
 
 
 def process_providers(df_providers, task=''):
@@ -13,8 +15,10 @@ def process_providers(df_providers, task=''):
         company = get_data_company()
         df_providers['empresa'] = int(company.company_id)
 
-        if not task:
+        list_providers = get_providers_api(company.company_id)
+        df_providers = df_providers.query("cod_fornecedor != @list_providers")
 
+        if not task:
             dict_fornecedor = df_providers.assign(
                 **df_providers.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -37,10 +41,12 @@ def process_products(df_products, task=''):
         df_products['empresa'] = company.company_id
 
         list_providers = get_providers_api(company.company_id)
+        list_products = get_products_api(company.company_id)
+
         df_products = df_products.query("cod_fornecedor == @list_providers")
+        df_products = df_products.query("cod_produto != @list_products")
 
         if not task:
-
             dict_products = df_products.assign(
                 **df_products.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
                 "records")
@@ -72,7 +78,6 @@ def process_histories(df_histories, task=''):
         df_histories = df_histories.query("cod_filial == @list_branches")
 
         if not task:
-
             dict_histories = df_histories.assign(
                 **df_histories.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
                 "records")
@@ -104,7 +109,6 @@ def process_sales(df_sales, task=''):
         df_sales = df_sales.query("cod_filial == @list_branches")
 
         if not task:
-
             dict_sales = df_sales.assign(**df_sales.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
                 "records")
 
@@ -135,7 +139,6 @@ def process_entries(df_entries, task=''):
         df_entries = df_entries.query("cod_filial == @list_branches")
 
         if not task:
-
             dict_entries = df_entries.assign(
                 **df_entries.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -164,8 +167,15 @@ def process_orders(df_orders, task=''):
         df_orders = df_orders.query("cod_produto == @list_products")
         df_orders = df_orders.query("cod_filial == @list_branches")
 
-        if not task:
+        # list_orders, list_orders_products, list_orders_branches, list_orders_quantity_over, list_orders_date = get_orders_api(
+        #     company.company_id, is_duplicated=True)
+        #
+        # df_orders = df_orders.query(
+        #     "((cod_filial != @list_orders_branches and cod_produto != @list_orders_products) and (saldo != @list_orders_quantity_over and data != list_orders_date) and num_pedido != @list_orders)"
+        # )
 
+
+        if not task:
             dict_orders = df_orders.assign(**df_orders.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
                 "records")
 
@@ -186,13 +196,13 @@ def process_order_duplicate(df_orders, task=''):
         company = get_data_company()
         df_orders['empresa'] = company.company_id
 
-        list_orders = get_orders_api(company.company_id)
+        list_orders = get_orders_api(company.company_id, is_duplicated=True)
 
         df_orders_duplicate = df_orders.query("num_pedido != @list_orders")
 
         if not task:
-
-            dict_orders = df_orders_duplicate.assign(**df_orders_duplicate.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
+            dict_orders = df_orders_duplicate.assign(
+                **df_orders_duplicate.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
                 "records")
 
             return dict_orders, company.company_id
@@ -227,6 +237,13 @@ def process_stocks(df_stock, task=''):
         df_stock = df_stock.query("cod_filial == @list_branches")
 
         if not task:
+
+            # list_stock_produto, list_stock_filial, list_stock_qt_geral, list_stock_qt_disponivel, list_stock_preco = get_stock_api(
+            #     company.company_id)
+
+            # df_stock = df_stock.query(
+            #     "(cod_filial != @list_stock_filial and cod_produto != @list_stock_produto) and (qt_geral != @list_stock_qt_geral and qt_disponivel != @list_stock_qt_disponivel)"
+            # )
 
             dict_stock = df_stock.assign(
                 **df_stock.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
