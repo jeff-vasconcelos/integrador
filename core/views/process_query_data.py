@@ -68,7 +68,6 @@ def process_histories(df_histories):
         df_histories = df_histories.query("cod_produto == @list_products")
         df_histories = df_histories.query("cod_filial == @list_branches")
 
-
         dict_histories = df_histories.assign(
             **df_histories.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
             "records")
@@ -124,7 +123,6 @@ def process_entries(df_entries):
         df_entries = df_entries.query("cod_produto == @list_products")
         df_entries = df_entries.query("cod_filial == @list_branches")
 
-
         dict_entries = df_entries.assign(
             **df_entries.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
@@ -151,13 +149,6 @@ def process_orders(df_orders):
         df_orders = df_orders.query("cod_produto == @list_products")
         df_orders = df_orders.query("cod_filial == @list_branches")
 
-        # list_orders, list_orders_products, list_orders_branches, list_orders_quantity_over, list_orders_date = get_orders_api(
-        #     company.company_id, is_duplicated=True)
-        #
-        # df_orders = df_orders.query(
-        #     "((cod_filial != @list_orders_branches and cod_produto != @list_orders_products) and (saldo != @list_orders_quantity_over and data != list_orders_date) and num_pedido != @list_orders)"
-        # )
-
         dict_orders = df_orders.assign(**df_orders.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict(
             "records")
 
@@ -176,14 +167,18 @@ def process_order_duplicate(df_orders):
         company = get_data_company()
         df_orders['empresa'] = company.company_id
 
-        list_orders = get_orders_api(company.company_id, is_duplicated=True)
-        list_orders_dataframe = df_orders['num_pedido'].tolist()
+        list_orders = get_orders_api(company.company_id)
+        list_orders_df = df_orders['num_pedido'].tolist()
+        list_products_df = df_orders['cod_produto'].tolist()
 
         list_remove = []
         for x in list_orders:
-            if x not in list_orders_dataframe:
+            if x['num_pedido'] not in list_orders_df and x['cod_produto'] not in list_products_df:
                 list_remove.append(
-                    {"num_pedido": x}
+                    {
+                        "num_pedido": x['num_pedido'],
+                        "cod_produto": x['cod_produto']
+                    }
                 )
 
         return list_remove, company.company_id
@@ -215,18 +210,12 @@ def process_stocks(df_stock):
         df_stock = df_stock.query("cod_produto == @list_products")
         df_stock = df_stock.query("cod_filial == @list_branches")
 
-        # list_stock_produto, list_stock_filial, list_stock_qt_geral, list_stock_qt_disponivel, list_stock_preco = get_stock_api(
-        #     company.company_id)
-
-        # df_stock = df_stock.query(
-        #     "(cod_filial != @list_stock_filial and cod_produto != @list_stock_produto) and (qt_geral != @list_stock_qt_geral and qt_disponivel != @list_stock_qt_disponivel)"
-        # )
+        # list_stock = get_stock_api(company.company_id)
 
         dict_stock = df_stock.assign(
             **df_stock.select_dtypes(["datetime"]).astype(str).to_dict("list")).to_dict("records")
 
         return dict_stock
-
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')

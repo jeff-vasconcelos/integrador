@@ -6,11 +6,11 @@ from core.models.providers import Provider
 from core.models.products import Product
 
 
-def get_providers_api(id):
+def get_providers_api(id_company):
     token = login_api()
     # results = Provider.objects.filter(company=id)
 
-    url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/providers-company/{id_company}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -27,13 +27,13 @@ def get_providers_api(id):
     return list_providers
 
 
-def get_products_api(id):
+def get_products_api(id_company):
 
     # results = Product.objects.filter(company=id)
 
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/products-company/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/products-company/{id_company}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -50,10 +50,10 @@ def get_products_api(id):
     return list_products
 
 
-def get_branches_api(id):
+def get_branches_api(id_company):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/branches-company/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/branches-company/{id_company}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -70,10 +70,10 @@ def get_branches_api(id):
     return list_branches
 
 
-def get_orders_api(id, is_duplicated=''):
+def get_orders_api(id_company):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/orders-company/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/orders-company/{id_company}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -82,36 +82,20 @@ def get_orders_api(id, is_duplicated=''):
     }
 
     results = requests.get(url=url, headers=headers).json()
-
-    if not is_duplicated:
-        list_orders = []
-        list_orders_products = []
-        list_orders_branches = []
-        list_orders_quantity_over = []
-        # list_orders_date = []
-
-        for i in results:
-            list_orders.append(i['num_pedido'])
-            list_orders_products.append(i['cod_produto'])
-            list_orders_branches.append(i['cod_filial'])
-            list_orders_quantity_over.append(i['saldo'])
-            # list_orders_date.append(datetime.strptime(i['data'], '%Y/%m/%d').date())
-
-        return list_orders, list_orders_products, list_orders_branches, list_orders_quantity_over
 
     list_orders = []
     for i in results:
-        list_orders.append(i['num_pedido'])
+        list_orders.append({"num_pedido": i['num_pedido'], "cod_produto": i['cod_produto']})
 
-    result = remove_repete(list_orders)
+    # result = remove_repete(list_orders)
 
-    return result
+    return list_orders
 
 
-def get_stock_api(id):
+def get_stock_api(id_company):
     token = login_api()
 
-    url = f'https://insight.ecluster.com.br/api/integration/stock-company/{id}/'
+    url = f'https://insight.ecluster.com.br/api/integration/stock-company/{id_company}/'
     headers = {
         'Authorization': token,
         'Content-Type': 'application/json',
@@ -121,24 +105,21 @@ def get_stock_api(id):
 
     results = requests.get(url=url, headers=headers).json()
 
-    list_stock_produto = []
-    list_stock_filial = []
-    list_stock_qt_geral = []
-    list_stock_qt_disponivel = []
+    list_stock_products = []
 
-    list_stock_preco = []
     for i in results:
-        list_stock_produto.append(i['cod_produto'])
-        list_stock_filial.append(i['cod_filial'])
-        list_stock_qt_geral.append(i['qt_geral'])
-        list_stock_qt_disponivel.append(i['qt_disponivel'])
-        # list_stock_data.append(i['data'])
-        # list_stock_data.append(datetime.strptime(i['data'], '%Y/%m/%d').date())
-        list_stock_preco.append(i['preco_venda'])
+        list_stock_products.append(
+            {
+                "cod_produto": i['cod_produto'],
+                "cod_filial": i['cod_filial'],
+                "qt_geral": i['qt_geral'],
+                "qt_disponivel": i['qt_disponivel'],
+                "preco_venda": i['preco_venda']
 
-    # result = remove_repete(list_stock)
+            }
+        )
 
-    return list_stock_produto, list_stock_filial, list_stock_qt_geral, list_stock_qt_disponivel, list_stock_preco
+    return list_stock_products
 
 
 def remove_repete(lista):

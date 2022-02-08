@@ -1,3 +1,4 @@
 2022-02-04 15:19:49.563367 Pedidos - Sucesso ao remover pedidos!
 2022-02-04 15:33:47.308756 Pedidos - Sucesso ao remover pedidos!
 2022-02-04 15:45:41.494396 Pedidos - Sucesso ao remover pedidos!
+2022-02-08 12:19:49.971407 Pedidos - Sucesso ao remover pedidos!
