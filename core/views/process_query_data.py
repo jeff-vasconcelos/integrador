@@ -9,10 +9,11 @@ def process_providers(df_providers):
     """  """
     if not df_providers.empty:
         df_providers.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
-        company = get_data_company()
-        df_providers['empresa'] = int(company.company_id)
+        # company = get_data_company()
+        company = 5
+        df_providers['empresa'] = int(company)
 
-        list_providers = get_providers_api(company.company_id)
+        list_providers = get_providers_api(company)
         df_providers = df_providers.query("cod_fornecedor != @list_providers")
 
         dict_fornecedor = df_providers.assign(
@@ -31,11 +32,12 @@ def process_products(df_products):
                                "embalagem", "quantidade_un_cx", "peso_liquido", "cod_fabrica", "cod_depto",
                                "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
 
-        company = get_data_company()
-        df_products['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_products['empresa'] = company
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
 
         df_products = df_products.query("cod_fornecedor == @list_providers")
         df_products = df_products.query("cod_produto != @list_products")
@@ -57,12 +59,13 @@ def process_histories(df_histories):
         df_histories['data'] = pd.to_datetime(df_histories['data'])
         df_histories['cod_filial'] = df_histories['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_histories['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_histories['empresa'] = company
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
-        list_branches = get_branches_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+        list_branches = get_branches_api(company)
 
         df_histories = df_histories.query("cod_fornecedor == @list_providers")
         df_histories = df_histories.query("cod_produto == @list_products")
@@ -85,12 +88,13 @@ def process_sales(df_sales):
         df_sales['data'] = pd.to_datetime(df_sales['data'])
         df_sales['cod_filial'] = df_sales['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_sales['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_sales['empresa'] = company
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
-        list_branches = get_branches_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+        list_branches = get_branches_api(company)
 
         df_sales = df_sales.query("cod_fornecedor == @list_providers")
         df_sales = df_sales.query("cod_produto == @list_products")
@@ -112,12 +116,13 @@ def process_entries(df_entries):
         df_entries['data'] = pd.to_datetime(df_entries['data'])
         df_entries['cod_filial'] = df_entries['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_entries['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_entries['empresa'] = company
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
-        list_branches = get_branches_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+        list_branches = get_branches_api(company)
 
         df_entries = df_entries.query("cod_fornecedor == @list_providers")
         df_entries = df_entries.query("cod_produto == @list_products")
@@ -138,12 +143,13 @@ def process_orders(df_orders):
         df_orders['data'] = pd.to_datetime(df_orders['data'])
         df_orders['cod_filial'] = df_orders['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_orders['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_orders['empresa'] = company
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
-        list_branches = get_branches_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+        list_branches = get_branches_api(company)
 
         df_orders = df_orders.query("cod_fornecedor == @list_providers")
         df_orders = df_orders.query("cod_produto == @list_products")
@@ -164,10 +170,11 @@ def process_order_duplicate(df_orders):
         df_orders['data'] = pd.to_datetime(df_orders['data'])
         df_orders['cod_filial'] = df_orders['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_orders['empresa'] = company.company_id
+        # company = get_data_company()
+        company = 5
+        df_orders['empresa'] = company
 
-        list_orders = get_orders_api(company.company_id)
+        list_orders = get_orders_api(company)
         list_orders_df = df_orders['num_pedido'].tolist()
         list_products_df = df_orders['cod_produto'].tolist()
 
@@ -181,7 +188,7 @@ def process_order_duplicate(df_orders):
                     }
                 )
 
-        return list_remove, company.company_id
+        return list_remove, company
 
     else:
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
@@ -198,13 +205,15 @@ def process_stocks(df_stock):
         df_stock['data'] = pd.to_datetime(df_stock['data'])
         df_stock['cod_filial'] = df_stock['cod_filial'].astype(str).astype(int)
 
-        company = get_data_company()
-        df_stock['empresa'] = company.company_id
-        df_stock.fillna('0', inplace=True)
+        # company = get_data_company()
+        company = 5
+        df_stock['empresa'] = company
+        # df_stock.fillna('0', inplace=True)
+        df_stock['preco_venda'].fillna(0, inplace=True)
 
-        list_providers = get_providers_api(company.company_id)
-        list_products = get_products_api(company.company_id)
-        list_branches = get_branches_api(company.company_id)
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+        list_branches = get_branches_api(company)
 
         df_stock = df_stock.query("cod_fornecedor == @list_providers")
         df_stock = df_stock.query("cod_produto == @list_products")

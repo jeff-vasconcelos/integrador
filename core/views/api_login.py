@@ -8,14 +8,14 @@ def get_data_company():
 
 
 def login_api():
-    company = get_data_company()
+    # company = get_data_company()
 
     url = "https://insight.ecluster.com.br/api/token/"
     # url = "http://127.0.0.1:7000/api/token/"
 
     user_data = {
-        "username": company.username,
-        "password": company.password
+        "username": "cluster",
+        "password": "Cluster*2018"
     }
 
 
