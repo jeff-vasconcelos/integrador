@@ -1,8 +1,9 @@
-from core.views.get_data import *
+from decouple import config
 from core.views.api_login import login_api
-from core.views.query_db import *
-from core.views.process_query_data import *
-from core.views.send_to_data import *
+from core.views.query_db import queryset_oracle
+from core.views.process_query_data import (process_providers, process_products, process_sales,
+                                           process_histories, process_orders, process_entries, process_stocks)
+from core.views.send_to_data import send_data_integration
 
 
 def run_providers_single():
@@ -11,7 +12,8 @@ def run_providers_single():
     token = login_api()
     df_providers = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/providers/"
+    url = config('URL_INSIGHT_INTEGRATION_PROVIDERS')
+
     list_providers = process_providers(df_providers)
     send_data_integration(url, token, list_providers)
 
@@ -23,7 +25,7 @@ def run_products_single():
     df_products = queryset_oracle(select_oracle=select_sql)
     list_products = process_products(df_products)
 
-    url = "https://insight.ecluster.com.br/api/integration/products/"
+    url = config('URL_INSIGHT_INTEGRATION_PRODUCTS')
     send_data_integration(url, token, list_products)
 
 
@@ -34,7 +36,7 @@ def run_histories_single(date_start, date_end):
     token = login_api()
     df_histories = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/stock-histories/"
+    url = config('URL_INSIGHT_INTEGRATION_HISTORY')
     list_histories = process_histories(df_histories)
     send_data_integration(url, token, list_histories)
 
@@ -45,7 +47,7 @@ def run_sales_single(date_start, date_end):
     token = login_api()
     df_sales = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/product-sales/"
+    url = config('URL_INSIGHT_INTEGRATION_SALES')
     list_sales = process_sales(df_sales)
     send_data_integration(url, token, list_sales)
 
@@ -56,7 +58,7 @@ def run_orders_single(date_start, date_end):
     token = login_api()
     df_orders = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/buy-orders/"
+    url = config('URL_INSIGHT_INTEGRATION_ORDERS')
     list_orders = process_orders(df_orders)
     send_data_integration(url, token, list_orders)
 
@@ -67,7 +69,7 @@ def run_entries_single(date_start, date_end):
     token = login_api()
     df_entries = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/entry-products/"
+    url = config('URL_INSIGHT_INTEGRATION_ENTRY')
     list_entries = process_entries(df_entries)
     send_data_integration(url, token, list_entries)
 
@@ -78,6 +80,6 @@ def run_stocks_single():
     token = login_api()
     df_stocks = queryset_oracle(select_oracle=select_sql)
 
-    url = "https://insight.ecluster.com.br/api/integration/stock-current/"
+    url = config('URL_INSIGHT_INTEGRATION_STOCK')
     list_stocks = process_stocks(df_stocks)
     send_data_integration(url, token, list_stocks)

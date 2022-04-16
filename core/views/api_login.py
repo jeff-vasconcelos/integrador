@@ -1,26 +1,16 @@
 import requests
-from core.models.configuration import Configuration
-
-
-def get_data_company():
-    qs = Configuration.objects.get(id=1)
-    return qs
+from decouple import config
 
 
 def login_api():
-    # company = get_data_company()
-
-    url = "https://insight.ecluster.com.br/api/token/"
-    # url = "http://127.0.0.1:7000/api/token/"
 
     user_data = {
-        "username": "cluster",
-        "password": "Cluster*2018"
+        "username": config('COMPANY_INSIGHT_USER'),
+        "password": config('COMPANY_INSIGHT_PASSWORD')
     }
 
-
     try:
-        response = requests.post(url=url, json=user_data)
+        response = requests.post(url=config('URL_INSIGHT_LOGIN_API'), json=user_data)
 
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         raise SystemExit(e)

@@ -1,16 +1,15 @@
 import datetime
 import pandas as pd
-
-from core.views.api_login import get_data_company
-from core.views.get_data import get_providers_api, get_products_api, get_branches_api, get_orders_api, get_stock_api
+from decouple import config
+from core.views.get_data import (get_providers_api, get_products_api,
+                                 get_branches_api, get_orders_api)
 
 
 def process_providers(df_providers):
     """  """
     if not df_providers.empty:
         df_providers.columns = ["cod_fornecedor", "desc_fornecedor", "cnpj", "iestadual"]
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_providers['empresa'] = int(company)
 
         list_providers = get_providers_api(company)
@@ -32,8 +31,7 @@ def process_products(df_products):
                                "embalagem", "quantidade_un_cx", "peso_liquido", "cod_fabrica", "cod_depto",
                                "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_products['empresa'] = company
 
         list_providers = get_providers_api(company)
@@ -59,8 +57,7 @@ def process_histories(df_histories):
         df_histories['data'] = pd.to_datetime(df_histories['data'])
         df_histories['cod_filial'] = df_histories['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_histories['empresa'] = company
 
         list_providers = get_providers_api(company)
@@ -88,8 +85,7 @@ def process_sales(df_sales):
         df_sales['data'] = pd.to_datetime(df_sales['data'])
         df_sales['cod_filial'] = df_sales['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_sales['empresa'] = company
 
         list_providers = get_providers_api(company)
@@ -116,8 +112,7 @@ def process_entries(df_entries):
         df_entries['data'] = pd.to_datetime(df_entries['data'])
         df_entries['cod_filial'] = df_entries['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_entries['empresa'] = company
 
         list_providers = get_providers_api(company)
@@ -143,8 +138,7 @@ def process_orders(df_orders):
         df_orders['data'] = pd.to_datetime(df_orders['data'])
         df_orders['cod_filial'] = df_orders['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_orders['empresa'] = company
 
         list_providers = get_providers_api(company)
@@ -170,8 +164,7 @@ def process_order_duplicate(df_orders):
         df_orders['data'] = pd.to_datetime(df_orders['data'])
         df_orders['cod_filial'] = df_orders['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_orders['empresa'] = company
 
         list_orders = get_orders_api(company)
@@ -205,8 +198,7 @@ def process_stocks(df_stock):
         df_stock['data'] = pd.to_datetime(df_stock['data'])
         df_stock['cod_filial'] = df_stock['cod_filial'].astype(str).astype(int)
 
-        # company = get_data_company()
-        company = 5
+        company = config('COMPANY_INSIGHT_ID')
         df_stock['empresa'] = company
         # df_stock.fillna('0', inplace=True)
         df_stock['preco_venda'].fillna(0, inplace=True)

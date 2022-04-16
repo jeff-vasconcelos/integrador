@@ -1,8 +1,10 @@
 import os
+from decouple import config
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = os.environ.get('SECRET_KEY', '!9h0o(rdbb@c)mpc@ve$wt*k=7_r7!g9%6wllrp3otb+3)&0c_')
-DEBUG = os.environ.get('DEBUG', 'False')
+SECRET_KEY = config('SECRET_KEY', default='!9h0o(rdbb@c)mpc@ve$wt*k=7_r7!g9%6wllrp3otb+3)&0c_')
+DEBUG = config('DEBUG', default=False)
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -54,8 +56,8 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config('LOCAL_DB_ENGINE'),
+        'NAME': os.path.join(BASE_DIR, config('LOCAL_DB_NAME')),
     }
 }
 
@@ -92,8 +94,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379")
+BROKER_URL = config("CELERY_BROKER")
+CELERY_RESULT_BACKEND = config("CELERY_BACKEND")
 CELERY_IMPORTS = ('core.tasks',)
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'

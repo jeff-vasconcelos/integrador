@@ -1,18 +1,15 @@
 import cx_Oracle
-import os
 import pandas as pd
-from core.views.get_data import register_log
-from core.views.api_login import get_data_company
+from decouple import config
 
 
 def conn_db():
     """
     Função responsável por conectar ao TNS do DB
     """
-    # company = get_data_company()
-    con = cx_Oracle.connect(user="BRASILMED",
-                            password="BR4S1LM3D1",
-                            dsn="PROD")
+    con = cx_Oracle.connect(user=config('ORACLE_DB_USER'),
+                            password=config('ORACLE_DB_PASSWORD'),
+                            dsn=config('ORACLE_DB_DSN'))
 
     cur = con.cursor()
     print("CONECTOU NO ORACLE")
@@ -38,7 +35,7 @@ def queryset_oracle(select_oracle):
 
         df_resultados = pd.DataFrame(lista_resultados)
         #df_resultados = df_resultados.dropna()
-
+        print(df_resultados)
         return df_resultados
     
     except:
