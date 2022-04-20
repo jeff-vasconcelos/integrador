@@ -32,30 +32,7 @@ def send_data(url, token, dados):
         for i in dados:
             data = json.dumps(i)
             response = requests.post(url=url, headers=headers, data=data)
-            print(response)
-
-    except requests.exceptions.RequestException as e:  # This is the correct syntax
-        register_log('Erro: function(send_data) - Nao foi possivel conectar ao servidor')
-        raise SystemExit(e)
-
-
-def send_data_tasks_delete(url, token, lista_dados):
-    send_data_delete(url, token, lista_dados)
-
-
-def send_data_delete(url, token, dados):
-    headers = {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-        'dataType': 'json',
-        'Accept': 'application/json'
-    }
-
-    try:
-        for i in dados:
-            data = json.dumps(i)
-
-            response = requests.post(url=url, headers=headers, data=data)
+            print(data)
             print(response)
 
     except requests.exceptions.RequestException as e:  # This is the correct syntax

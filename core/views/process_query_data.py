@@ -50,6 +50,37 @@ def process_products(df_products):
         raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
 
 
+def process_products_inactivate(df_products):
+    if not df_products.empty:
+
+        df_products.columns = ["cod_fornecedor", "cod_produto", "desc_produto", "cod_ncm", "cod_auxiliar", "marca",
+                               "embalagem", "quantidade_un_cx", "peso_liquido", "cod_fabrica", "cod_depto",
+                               "desc_departamento", "cod_sec", "desc_secao", "principio_ativo"]
+
+        company = config('COMPANY_INSIGHT_ID')
+        df_products['empresa'] = company
+
+        list_providers = get_providers_api(company)
+        list_products = get_products_api(company)
+
+        df_products = df_products.query("cod_fornecedor == @list_providers")
+
+        list_inactive_products = []
+        list_products_df = df_products['cod_produto'].tolist()
+
+        for product in list_products:
+            if not product in list_products_df:
+                list_inactive_products.append(
+                    {
+                        "cod_produto": product
+                    })
+
+        return list_inactive_products
+
+    else:
+        raise ValueError('Erro: consulta ao banco de dados retornou vazia!')
+
+
 def process_histories(df_histories):
     if not df_histories.empty:
 

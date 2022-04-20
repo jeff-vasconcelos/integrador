@@ -3,7 +3,8 @@ from celery import shared_task
 
 from core.views.get_data import register_log
 from core.views.tasks_integration import (run_providers_task, run_products_task, run_histories_task, run_sales_task,
-                                          run_orders_task, run_entries_task, run_stocks_task, run_orders_duplicate_task)
+                                          run_orders_task, run_entries_task, run_stocks_task, run_orders_duplicate_task,
+                                          run_products_inactive_task)
 
 
 
@@ -27,6 +28,18 @@ def task_product():
     except ValueError as err:
         error = f"(Task) Produto - {str(err)}"
         register_log(error)
+
+
+@shared_task
+def task_product_inactive():
+    try:
+
+        run_products_inactive_task()
+
+    except ValueError as err:
+        error = f"(Task) Inativar Produto - {str(err)}"
+        register_log(error)
+
 
 
 @shared_task

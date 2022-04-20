@@ -2,9 +2,10 @@ import datetime
 from decouple import config
 from core.views.api_login import login_api
 from core.views.query_db import queryset_oracle
-from core.views.send_to_data import send_data_tasks, send_data_tasks_delete
+from core.views.send_to_data import send_data_tasks
 from core.views.process_query_data import (process_providers, process_products, process_sales, process_histories,
-                                           process_orders, process_entries, process_stocks, process_order_duplicate)
+                                           process_orders, process_entries, process_stocks, process_order_duplicate,
+                                           process_products_inactivate)
 
 
 def run_providers_task():
@@ -39,6 +40,26 @@ def run_products_task():
     list_products = process_products(df_products)
 
     url = config('URL_INSIGHT_PRODUCTS')
+    send_data_tasks(url, token, list_products)
+
+
+def run_products_inactive_task():
+    token = login_api()
+
+    select_sql = """
+    SELECT pcprodut.codfornec,pcprodut.codprod,pcprodut.descricao,pcprodut.nbm ncm, pcprodut.codauxiliar ean, 
+    pcmarca.marca,pcprodut.embalagem,pcprodut.qtunitcx,pcprodut.pesoliq, pcprodut.codfab,pcprodut.codepto, 
+    pcdepto.descricao departamento,pcprodut.codsec, pcsecao.descricao secao,pcprincipativo.descricao principio_ativo 
+    FROM pcprodut, pcmarca, pcdepto, pcsecao, pcprincipativo, pcfornec WHERE pcprodut.codmarca = pcmarca.codmarca(+) 
+    AND pcprodut.codepto = pcdepto.codepto(+) AND pcprodut.codsec = pcsecao.codsec(+) 
+    AND pcprodut.codfornec = pcfornec.codfornec(+) AND pcprodut.codprincipativo = pcprincipativo.codprincipativo(+) 
+    AND pcprodut.obs2 <> 'FL' and pcprodut.dtexclusao is null
+    """
+
+    df_products = queryset_oracle(select_oracle=select_sql)
+    list_products = process_products_inactivate(df_products)
+
+    url = f"{config('URL_INSIGHT_INTEGRATION_INACTIVE_PRODUCTS')}{config('COMPANY_INSIGHT_ID')}/"
     send_data_tasks(url, token, list_products)
 
 
@@ -116,10 +137,11 @@ def run_orders_duplicate_task():
 
     df_orders_duplicate = queryset_oracle(select_oracle=select_sql)
     list_orders_duplicate, id_company = process_order_duplicate(df_orders_duplicate)
-    url_duplicates = f"{config('URL_INSIGHT_ORDERS')}{id_company}/"
+    url_duplicates = f"{config('URL_INSIGHT_DELETE_ORDERS')}{id_company}/"
 
     if len(list_orders_duplicate) != 0:
-        send_data_tasks_delete(url_duplicates, token, list_orders_duplicate)
+        # send_data_tasks_delete(url_duplicates, token, list_orders_duplicate)
+        send_data_tasks(url_duplicates, token, list_orders_duplicate)
 
 
 def run_entries_task():
@@ -159,7 +181,5 @@ def run_stocks_task():
     df_stocks = queryset_oracle(select_oracle=select_sql)
     list_stocks = process_stocks(df_stocks)
     url = config('URL_INSIGHT_STOCK')
-
-    print(url)
 
     send_data_tasks(url, token, list_stocks)

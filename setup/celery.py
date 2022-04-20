@@ -19,6 +19,10 @@ app.conf.beat_schedule = {
         'task': 'core.tasks.task_product',
         'schedule': crontab(minute=0, hour=0),
     },
+    'rotina-inativar_produtos': {
+        'task': 'core.tasks.task_product_inactive',
+        'schedule': crontab(minute=0, hour=0),
+    },
     'rotina-historico': {
         'task': 'core.tasks.task_history',
         'schedule': crontab(minute=0, hour=0),

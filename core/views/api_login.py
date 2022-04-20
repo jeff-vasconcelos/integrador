@@ -18,10 +18,11 @@ def login_api():
 
     if response.status_code == 200:
         response_data = response.json()
-        # token_puro = response_data['token']
-        token_puro = response_data['access']
+        token_puro = response_data['token']
+        # token_puro = response_data['access']
 
-        token = "Bearer "
+        token = "Token "
+        # token = "Bearer "
         token += token_puro
         return token
     else:

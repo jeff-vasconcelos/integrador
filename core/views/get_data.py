@@ -19,7 +19,7 @@ def get_providers_api(id_company):
 
     list_providers = []
     for i in results:
-        list_providers.append(i['cod_fornecedor'])
+        list_providers.append(int(i['cod_fornecedor']))
 
     return list_providers
 
@@ -40,7 +40,7 @@ def get_products_api(id_company):
 
     list_products = []
     for i in results:
-        list_products.append(i['cod_produto'])
+        list_products.append(int(i['cod_produto']))
 
     return list_products
 
@@ -60,7 +60,7 @@ def get_branches_api(id_company):
 
     list_branches = []
     for i in results:
-        list_branches.append(i['cod_filial'])
+        list_branches.append(int(i['cod_filial']))
 
     return list_branches
 
@@ -80,7 +80,7 @@ def get_orders_api(id_company):
 
     list_orders = []
     for i in results:
-        list_orders.append({"num_pedido": i['num_pedido'], "cod_produto": i['cod_produto']})
+        list_orders.append({"num_pedido": int(i['num_pedido']), "cod_produto": int(i['cod_produto'])})
 
     return list_orders
 
