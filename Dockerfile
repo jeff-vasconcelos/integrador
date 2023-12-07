@@ -16,7 +16,7 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
 ADD oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm /tmp/
 RUN apt-get update \
     && apt -y install curl \
-    && apt -y install redis-server \
+    # && apt -y install redis-server \
     && apt-get -y install alien libaio1 \
     && alien -i /tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm \
     && ln -snf /usr/lib/oracle/11.2/client64 /opt/oracle \

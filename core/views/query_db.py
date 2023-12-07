@@ -25,7 +25,7 @@ def queryset_oracle(select_oracle):
         
         cur, con = conn_db()
         cur.execute(select_oracle)
-
+        
         lista_resultados = []
         for qs_db in cur:
             lista_resultados.append(qs_db)
@@ -38,5 +38,6 @@ def queryset_oracle(select_oracle):
         print(df_resultados)
         return df_resultados
     
-    except:
+    except Exception as e:
+        print(e)
         raise ValueError('Erro: Não foi possivel consultar o banco de dados')

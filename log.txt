@@ -1,0 +1,52 @@
+2023-09-18 15:57:27.681695 Fornecedor - Erro: function(login) Nao foi possivel realizar login no servidor
+2023-09-18 16:09:13.192170 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:09:51.194099 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:09:56.247616 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:26:58.233684 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:27:01.024493 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:27:14.979920 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 16:28:32.695447 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 18:36:29.339932 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-18 18:50:14.477692 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 11:41:01.542302 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 11:41:47.203058 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 11:53:41.202846 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 14:54:07.059922 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 15:47:15.263159 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 16:09:14.058487 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 16:10:55.321925 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 16:57:40.207365 Fornecedor - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 19:01:48.795572 Fornecedor - Erro: function(login) Nao foi possivel realizar login no servidor
+2023-09-20 19:12:18.790081 Fornecedor - Erro: function(login) Nao foi possivel realizar login no servidor
+2023-09-20 19:13:15.615021 Fornecedor - Erro: function(login) Nao foi possivel realizar login no servidor
+2023-09-20 19:14:20.372697 Fornecedor - Sucesso ao enviar fornecedores!
+2023-09-20 19:15:43.333180 Produto - Sucesso ao enviar produtos!
+2023-09-20 19:50:27.744983 Histórico - Sucesso ao enviar historico!
+2023-09-20 20:29:29.210240 Histórico - Sucesso ao enviar historico!
+2023-09-20 20:46:30.403725 Histórico - Erro: Não foi possivel consultar o banco de dados
+2023-09-20 21:19:22.794386 Histórico - Sucesso ao enviar historico!
+2023-09-20 22:21:11.080843 Vendas - Sucesso ao enviar vendas!
+2023-09-20 23:22:09.807871 Vendas - Sucesso ao enviar vendas!
+2023-09-21 00:00:04.606704 (Task) Entradas - Erro: consulta ao banco de dados retornou vazia!
+2023-09-21 00:00:04.817343 (Task) Histórico - Erro: consulta ao banco de dados retornou vazia!
+2023-09-21 00:00:04.885315 (Task) Vendas - Erro: consulta ao banco de dados retornou vazia!
+2023-09-21 00:00:06.269301 (Task) Estoque - Erro: consulta ao banco de dados retornou vazia!
+2023-09-21 00:40:08.667410 Vendas - Sucesso ao enviar vendas!
+2023-09-21 09:31:44.088073 Pedidos - Sucesso ao enviar pedidos!
+2023-09-21 09:35:26.845945 Entradas - Sucesso ao enviar entradas!
+2023-09-21 09:38:41.181826 Estoque - Sucesso ao enviar estoque!
+2023-10-03 12:19:20.586137 Histórico - Erro: Não foi possivel consultar o banco de dados
+2023-10-03 12:20:02.079830 Histórico - Erro: Não foi possivel consultar o banco de dados
+2023-10-03 12:20:45.197541 Histórico - Erro: Não foi possivel consultar o banco de dados
+2023-10-03 12:42:03.503937 Histórico - Sucesso ao enviar historico!
+2023-10-03 13:19:43.965414 Vendas - Sucesso ao enviar vendas!
+2023-10-03 14:56:09.179677 Pedidos - Sucesso ao enviar pedidos!
+2023-10-03 14:56:54.899347 Entradas - Sucesso ao enviar entradas!
+2023-10-03 14:58:11.273219 Estoque - Sucesso ao enviar estoque!
+2023-10-27 23:53:17.446123 Histórico - Erro: Não foi possivel consultar o banco de dados
+2023-10-28 00:21:02.747165 Histórico - Sucesso ao enviar historico!
+2023-10-28 01:05:16.881186 Vendas - Sucesso ao enviar vendas!
+2023-10-28 01:07:02.884791 Pedidos - Sucesso ao enviar pedidos!
+2023-10-28 01:10:05.396169 Entradas - Sucesso ao enviar entradas!
+2023-10-28 01:11:33.908792 Estoque - Sucesso ao enviar estoque!
+2023-10-28 01:14:07.273961 Pedidos - Sucesso ao remover pedidos!

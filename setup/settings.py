@@ -5,7 +5,7 @@ from decouple import config
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY', default='!9h0o(rdbb@c)mpc@ve$wt*k=7_r7!g9%6wllrp3otb+3)&0c_')
 DEBUG = config('DEBUG', default=False)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','0.0.0.0', '127.0.0.1', 'host.docker.internal']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
